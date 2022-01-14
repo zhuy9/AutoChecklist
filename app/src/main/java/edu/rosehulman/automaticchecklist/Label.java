@@ -1,2 +1,4 @@
-package edu.rosehulman.automaticchecklist;public class Label {
+package edu.rosehulman.automaticchecklist;
+
+public class Label {
 }

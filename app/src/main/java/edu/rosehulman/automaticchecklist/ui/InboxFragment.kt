@@ -1,4 +1,4 @@
-package edu.rosehulman.automaticchecklist.ui.home
+package edu.rosehulman.automaticchecklist.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import edu.rosehulman.automaticchecklist.EntryAdatper
 import edu.rosehulman.automaticchecklist.databinding.FragmentInboxBinding
 
 
@@ -24,7 +25,7 @@ class InboxFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentInboxBinding.inflate(inflater, container, false)
-        val adapter = MovieQuoteAdapter(this)
+        val adapter = EntryAdatper(this)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.setHasFixedSize(true)
@@ -34,6 +35,11 @@ class InboxFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
+
+        binding.fab.setOnClickListener {
+            adapter.addEntry(null)
+        }
+
         return binding.root
     }
 
