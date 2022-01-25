@@ -17,4 +17,5 @@
     <color name="primaryTextColor">#fafafa</color>
     <color name="secondaryTextColor">#e3f2fd</color>
     <color name="gray">#FFDDDDDD</color>
+    <color name="warning">#FFD0312D</color>
 </resources>

@@ -1,7 +1,5 @@
 package edu.rosehulman.automaticchecklist.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import edu.rosehulman.automaticchecklist.Entry
 import kotlin.random.Random
@@ -10,17 +8,23 @@ class EntriesViewModel : ViewModel() {
 
     private var entries = ArrayList<Entry>()
     var currentPos = 0
+    var oldPos = -1
     private var oldVal: Entry? = null
 
     fun getEntryAt(pos: Int) = entries[pos]
     fun getCurrentEntry() = getEntryAt(currentPos)
 
     fun addEntry(entry: Entry?) {
-        entries.add(Entry("${getRandom()}RANDOM"))
+        if (entry !== null && entry is Entry){
+            entries.add(entry)
+        } else {
+            entries.add(Entry("${getRandom()}RANDOM"))
+        }
         // TODO set labels, recurring state, etc.
     }
 
     fun getRandom() = Random.nextInt(100)
+
     fun updateCurrentEntry(content: String) {
         entries[currentPos].updateContent(content)
         // TODO more elements to udpate
@@ -28,6 +32,7 @@ class EntriesViewModel : ViewModel() {
 
     fun deleteCurrentEntry() {
         oldVal = entries.removeAt(currentPos)
+        oldPos = currentPos
         currentPos = 0
     }
 

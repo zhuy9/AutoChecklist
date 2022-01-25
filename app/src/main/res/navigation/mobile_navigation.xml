@@ -12,6 +12,18 @@
         tools:layout="@layout/fragment_inbox" />
 
     <fragment
+        android:id="@+id/navigation_create"
+        android:name="edu.rosehulman.automaticchecklist.EntryEditFragment"
+        android:label="Create"
+        tools:layout="@layout/fragment_entry_edit"/>
+
+    <fragment
+        android:id="@+id/navigation_update"
+        android:name="edu.rosehulman.automaticchecklist.EntryEditFragment"
+        android:label="Update"
+        tools:layout="@layout/fragment_entry_edit"/>
+
+    <fragment
         android:id="@+id/navigation_category"
         android:name="edu.rosehulman.automaticchecklist.ui.dashboard.CategoryFragment"
         android:label="@string/category"
