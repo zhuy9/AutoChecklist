@@ -49,12 +49,47 @@
 
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/entry_labels"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/secondaryLightColor"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/entry_time_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_baseline_repeat_24" />
+
+            <TextView
+                android:id="@+id/entry_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/entry_time_icon"
+                android:text="D/R" />
+
+            <ImageView
+                android:id="@+id/entry_location_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/entry_time_text"
+                android:src="@drawable/ic_baseline_location_on_24" />
+
+            <TextView
+                android:id="@+id/entry_location_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/entry_location_icon"
+                android:text="LOC" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/entry_labels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/entry_location_text"
+                android:background="@color/secondaryLightColor"
+                android:orientation="horizontal" />
+
+        </RelativeLayout>
 
 
     </LinearLayout>

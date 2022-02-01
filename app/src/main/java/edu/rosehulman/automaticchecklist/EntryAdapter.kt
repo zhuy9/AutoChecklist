@@ -1,14 +1,19 @@
 package edu.rosehulman.automaticchecklist
 
 import android.graphics.Paint
+import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.webkit.RenderProcessGoneDetail
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,7 +50,10 @@ class EntryAdapter(private val fragment: InboxFragment) :
         private val deleteImageButton: ImageButton = itemView.findViewById(R.id.entry_delete)
         private val editImageButton: ImageButton = itemView.findViewById(R.id.entry_edit)
         private val shareImageButton: ImageButton = itemView.findViewById(R.id.entry_share)
-
+        private val timeIconView: ImageView = itemView.findViewById(R.id.entry_time_icon)
+        private val timeTextView: TextView = itemView.findViewById(R.id.entry_time_text)
+        private val locationIconView: ImageView = itemView.findViewById(R.id.entry_location_icon)
+        private val locationTextView: TextView = itemView.findViewById(R.id.entry_location_text)
         val recyclerView: RecyclerView = itemView.findViewById(R.id.entry_labels)
         val labelAdapter: LabelAdapter = LabelAdapter(fragment)
         init {
@@ -90,10 +98,28 @@ class EntryAdapter(private val fragment: InboxFragment) :
         fun bind(entry: Entry) {
             Log.d(Helpers.TAG, "in bind of EntryAdpt $entry")
             if(entry.recurring !== Frequency.NONE){
-
+                timeIconView.visibility = VISIBLE
+                timeTextView.visibility = VISIBLE
+                timeIconView.setImageResource(Label.LABEL_RECURRING)
+                timeTextView.text = entry.recurring.toString()
+            }else if(entry.dueDate !== null){
+                timeIconView.visibility = VISIBLE
+                timeTextView.visibility = VISIBLE
+                timeIconView.setImageResource(Label.LABEL_DUE)
+                timeTextView.text = "DATE"
+            }else{
+                timeIconView.visibility = GONE
+                timeTextView.visibility = GONE
             }
 
             if(entry.location !== ""){
+                locationIconView.visibility = VISIBLE
+                locationTextView.visibility = VISIBLE
+                locationIconView.setImageResource(Label.LABEL_LOCATION)
+                locationTextView.text = entry.location
+            }else{
+                locationIconView.visibility = GONE
+                locationTextView.visibility = GONE
 
             }
 

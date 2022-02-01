@@ -24,19 +24,7 @@ class LabelAdapter(val fragment: InboxFragment) :
     }
 
     override fun onBindViewHolder(holder: LabelAdapter.LabelViewHolder, position: Int) {
-        val currentEntry: Entry = model.getCurrentEntry()
-        val tagsToRender: ArrayList<Label> = ArrayList()
-        if(currentEntry.recurring !== Frequency.NONE){
-            tagsToRender.add(Label(currentEntry.recurring.toString(), Label.LABEL_RECURRING))
-        }
-        if(currentEntry.location !== ""){
-            tagsToRender.add(Label(currentEntry.location, Label.LABEL_LOCATION))
-        }
-        if(currentEntry.tags.size > 0){
-            tagsToRender.addAll(currentEntry.tags)
-        }
-        // holder.bind(model.getCurrentEntry().tags[position])
-        holder.bind(tagsToRender[position])
+        holder.bind(model.getCurrentEntry().tags[position])
     }
 
     override fun getItemCount() = model.getCurrentEntry().tags.size
