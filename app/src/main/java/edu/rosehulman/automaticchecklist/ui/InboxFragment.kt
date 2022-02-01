@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import edu.rosehulman.automaticchecklist.Entry
 import edu.rosehulman.automaticchecklist.EntryAdapter
+import edu.rosehulman.automaticchecklist.Frequency
+import edu.rosehulman.automaticchecklist.Label
 import edu.rosehulman.automaticchecklist.databinding.FragmentInboxBinding
 
 
@@ -34,7 +37,13 @@ class InboxFragment : Fragment() {
         )
 
         binding.fab.setOnClickListener {
-            adapter.addEntry(null)
+            var entry: Entry = Entry()
+            entry.content = "InboxFrag"
+            entry.location = "Classroom"
+            entry.recurring = Frequency.EVERY_DAY
+            entry.tags.add(Label("C1", Label.LABEL_CUSTOMIZED))
+            entry.tags.add(Label("C2", Label.LABEL_CUSTOMIZED))
+            adapter.addEntry(entry)
         }
 
         return binding.root

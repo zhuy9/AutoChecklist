@@ -1,14 +1,17 @@
 package edu.rosehulman.automaticchecklist
 
 import android.graphics.Paint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import edu.rosehulman.automaticchecklist.ui.EntriesViewModel
@@ -43,7 +46,14 @@ class EntryAdapter(private val fragment: InboxFragment) :
         private val editImageButton: ImageButton = itemView.findViewById(R.id.entry_edit)
         private val shareImageButton: ImageButton = itemView.findViewById(R.id.entry_share)
 
+        val recyclerView: RecyclerView = itemView.findViewById(R.id.entry_labels)
+        val labelAdapter: LabelAdapter = LabelAdapter(fragment)
         init {
+
+            recyclerView.adapter = labelAdapter
+            recyclerView.layoutManager = LinearLayoutManager(itemView.context,LinearLayoutManager.HORIZONTAL, false)
+            recyclerView.setHasFixedSize(true)
+
             editImageButton.setOnClickListener {
             model.updatePos(adapterPosition)
             fragment.findNavController().navigate(R.id.navigation_update)
@@ -76,19 +86,29 @@ class EntryAdapter(private val fragment: InboxFragment) :
             }
         }
 
-        fun bind(entry: Entry) {
 
-            if (entry.getIsChecked()) {
+        fun bind(entry: Entry) {
+            Log.d(Helpers.TAG, "in bind of EntryAdpt $entry")
+            if(entry.recurring !== Frequency.NONE){
+
+            }
+
+            if(entry.location !== ""){
+
+            }
+
+            // entry.tags.forEach { labelAdapter.addLabel(it) }
+            if (entry.isChecked) {
                 checkboxIconView.setImageResource(Entry.checkboxCheckedIconSource)
                 contentTextView.apply {
                     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                    text = entry.getContent()
+                    text = entry.content
                 }
             } else {
                 checkboxIconView.setImageResource(Entry.checkboxNotCheckedIconSource)
                 contentTextView.apply {
                     paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                    text = entry.getContent()
+                    text = entry.content
                 }
             }
         }

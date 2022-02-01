@@ -7,9 +7,15 @@ import java.time.format.DateTimeFormatter
 
 object Helpers {
     const val TAG = "ACL"
-    var defaultLabelArray = arrayListOf<String>("School", "Work", "Leisure")
+    var defaultLabelArray = arrayListOf<Label>(Label("School"), Label("Work"), Label("Leisure"))
     fun parseFrequencyToArray() = enumValues<Frequency>().map {
         it.name.replace("_", " ")
+    }
+
+    fun arrayToString(arr: ArrayList<Label>): String {
+        var string = ""
+        arr.forEach { string += it.name + "," }
+        return string
     }
 
     fun parseDate(dateTime: Long?): String {

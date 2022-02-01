@@ -1,5 +1,6 @@
 package edu.rosehulman.automaticchecklist
 
+import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +13,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
 import edu.rosehulman.automaticchecklist.databinding.FragmentEntryEditBinding
 import edu.rosehulman.automaticchecklist.ui.EntriesViewModel
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 
 class EntryEditFragment : Fragment() {
 
@@ -63,7 +60,7 @@ class EntryEditFragment : Fragment() {
         binding.entryEditFrequencyText.setAdapter(
             ArrayAdapter(
                 requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
+                R.layout.simple_spinner_dropdown_item,
                 Helpers.parseFrequencyToArray()
             )
         )
@@ -99,11 +96,14 @@ class EntryEditFragment : Fragment() {
 
         // select labels
         binding.entryEditLabels.setOnClickListener {
-            MultipleSelectPopUpFragment().show(parentFragmentManager, "mydialog")
+            // TODO make TAG constant
+            //val frag = MultipleSelectPopUpFragment()
+            //frag.show(parentFragmentManager, "TAG")
         }
     }
 
     fun updateView() {
         // TODO for edit details
+        binding.entryEditLabels.text = Helpers.arrayToString(model.getCurrentEntry().tags)
     }
 }

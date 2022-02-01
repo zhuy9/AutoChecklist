@@ -26,7 +26,7 @@ class EntriesViewModel : ViewModel() {
     fun getRandom() = Random.nextInt(100)
 
     fun updateCurrentEntry(content: String) {
-        entries[currentPos].updateContent(content)
+        entries[currentPos].content = content
         // TODO more elements to udpate
     }
 
@@ -46,7 +46,7 @@ class EntriesViewModel : ViewModel() {
     }
 
     fun toggleCurrentEntryState() {
-        entries[currentPos].toggleCheckStatus()
+        entries[currentPos].isChecked = !entries[currentPos].isChecked
     }
 
     fun size() = entries.size

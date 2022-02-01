@@ -6,4 +6,5 @@
     <string name="inbox">Inbox</string>
     <string name="category">Category</string>
     <string name="user">User</string>
+    <string name="padding">20dp</string>
 </resources>
