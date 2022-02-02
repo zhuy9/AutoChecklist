@@ -9,7 +9,7 @@ data class Entry(
     var dueDate: LocalDate? = null,
     var location: String = "",
     var recurring: Frequency = Frequency.NONE,
-    var recurringOn: DayOfWeek? = null,
+    // var recurringOn: DayOfWeek? = null,
     var tags: ArrayList<Label> = ArrayList()
 ) {
     companion object {

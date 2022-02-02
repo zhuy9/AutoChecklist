@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import edu.rosehulman.automaticchecklist.databinding.FragmentTextButtonBinding
 import edu.rosehulman.automaticchecklist.ui.EntriesViewModel
 
-class MultipleSelectPopUpFragment() : DialogFragment() {
+class MultipleSelectPopUpFragment(var labels: ArrayList<Label>) : DialogFragment() {
 
     lateinit var model: EntriesViewModel
 
@@ -22,44 +22,51 @@ class MultipleSelectPopUpFragment() : DialogFragment() {
         model = ViewModelProvider(requireActivity()).get(EntriesViewModel::class.java)
 
         return activity?.let {
-            val selectedLabels = ArrayList<Label>()
+            val selectedLabels = labels
             val builder = AlertDialog.Builder(it)
             val textArea = layoutInflater.inflate(R.layout.fragment_text_button, null)
             val addNewButton = textArea.findViewById<Button>(R.id.entry_edit_label_confirm_button)
             val addNewText = textArea.findViewById<EditText>(R.id.entry_edit_label_new_input)
+            val currentUserLabels: ArrayList<Label> = Helpers.defaultLabelArray
             addNewButton.setOnClickListener {
                 val newLabel = addNewText.text.toString()
-                    if (newLabel.isNotEmpty() and newLabel.isNotBlank()) {
-                        Log.d(Helpers.TAG, "CREATE NEW LABEL : $newLabel")
-                        val label = Label(newLabel)
-                        Helpers.defaultLabelArray.add(label)
-                        selectedLabels.add(label)
+                // TODO get current User
 
-                        // update the selected items
-                        builder.setMultiChoiceItems(
-                            Helpers.defaultLabelArray.map{label -> label.name}.toTypedArray(),
-                            null
-                        ) { dialog, index, checked ->
-                            if (checked) {
-                                selectedLabels.add(Helpers.defaultLabelArray.get(index))
-                            } else if (selectedLabels.contains(Helpers.defaultLabelArray.get(index))) {
-                                selectedLabels.remove(Helpers.defaultLabelArray.get(index))
-                            }
+                if (newLabel.isNotEmpty()
+                    && newLabel.isNotBlank()
+                    && !Helpers.labelExistsIn(newLabel, currentUserLabels)
+                ) {
+                    Log.d(Helpers.TAG, "CREATE NEW LABEL : $newLabel")
+                    val label = Label(newLabel)
+                    // Helpers.defaultLabelArray.add(label)
+                    selectedLabels.add(label)
+                    currentUserLabels.add(label)
+
+                    // TODO FIXME update the selected items
+                    builder.setMultiChoiceItems(
+                        Helpers.defaultLabelArray.map { label -> label.name }.toTypedArray(),
+                        null
+                    ) { dialog, index, checked ->
+                        if (checked) {
+                            selectedLabels.add(currentUserLabels.get(index))
+                        } else if (selectedLabels.contains(currentUserLabels.get(index))) {
+                            selectedLabels.remove(currentUserLabels.get(index))
                         }
                     }
+                }
             }
 
             builder.setCancelable(false)
                 .setTitle("Choose the labels")
                 .setView(textArea)
                 .setMultiChoiceItems(
-                    Helpers.defaultLabelArray.map{label -> label.name}.toTypedArray(),
+                    Helpers.defaultLabelArray.map { label -> label.name }.toTypedArray(),
                     null
                 ) { dialog, index, checked ->
                     if (checked) {
-                        selectedLabels.add(Helpers.defaultLabelArray.get(index))
-                    } else if (selectedLabels.contains(Helpers.defaultLabelArray.get(index))) {
-                        selectedLabels.remove(Helpers.defaultLabelArray.get(index))
+                        selectedLabels.add(currentUserLabels.get(index))
+                    } else if (selectedLabels.contains(currentUserLabels.get(index))) {
+                        selectedLabels.remove(currentUserLabels.get(index))
                     }
                 }
 //                .setNeutralButton("CREATE NEW") { dialog, id ->

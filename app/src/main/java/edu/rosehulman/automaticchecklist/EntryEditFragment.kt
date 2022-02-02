@@ -2,17 +2,20 @@ package edu.rosehulman.automaticchecklist
 
 import android.R
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
 import edu.rosehulman.automaticchecklist.databinding.FragmentEntryEditBinding
 import edu.rosehulman.automaticchecklist.ui.EntriesViewModel
+import java.time.LocalDate
 
 class EntryEditFragment : Fragment() {
 
@@ -35,8 +38,33 @@ class EntryEditFragment : Fragment() {
 
     fun setups() {
 
-        // hide frequency dropdown
-        binding.entryEditFrequency.visibility = GONE
+        // prefill the form
+        val currentEntry = model.getCurrentEntry()
+        if (currentEntry.content !== "") {
+            binding.entryEditText.setText(currentEntry.content)
+        }
+
+        if (currentEntry.location !== "") {
+            binding.entryEditLocation.setText(currentEntry.location)
+        }
+
+        // set frequency dropdown
+        if (currentEntry.recurring !== Frequency.NONE) {
+            binding.entryEditFrequency.visibility = VISIBLE
+            binding.entryEditFrequencyText.selectItem(
+                Helpers.parseSingleFrequency(currentEntry.recurring), // string
+                enumValues<Frequency>().indexOf(currentEntry.recurring) // index
+            )
+            binding.entryEditCheckbox.setImageResource(Entry.checkboxCheckedIconSource)
+            binding.entryEditChooseDate.isEnabled = false
+            binding.entryEditCalendarIcon.isEnabled = false
+        } else {
+            binding.entryEditChooseDate.isEnabled = true
+            binding.entryEditCalendarIcon.isEnabled = true
+            binding.entryEditCheckbox.setImageResource(Entry.checkboxNotCheckedIconSource)
+            binding.entryEditFrequency.visibility = GONE
+        }
+
 
         // hide warning for content
         binding.entryEditWarning1.visibility = INVISIBLE
@@ -57,11 +85,12 @@ class EntryEditFragment : Fragment() {
             }
         }
         // set freq dropdown
+        // TODO SET to user options
         binding.entryEditFrequencyText.setAdapter(
             ArrayAdapter(
                 requireContext(),
                 R.layout.simple_spinner_dropdown_item,
-                Helpers.parseFrequencyToArray()
+                Helpers.parseFrequencyToArray() // TODO
             )
         )
         // set current Selection to N/A
@@ -76,6 +105,18 @@ class EntryEditFragment : Fragment() {
             } else {
                 binding.entryEditWarning1.visibility = INVISIBLE
             }
+            // IF frequency is NONE
+            // val checkedStat: Boolean = !binding.entryEditChooseDate.isEnabled
+            val dueLocalDate: LocalDate? = null
+            val location: String = binding.entryEditLocation.text.toString()
+            val recurFrequency: Frequency? = Frequency.values().find {
+                it.name === binding.entryEditFrequencyText.text.toString().replace(" ", "_")
+            }
+            Log.d(
+                Helpers.TAG,
+                "Content: $content\ndueDate: $dueLocalDate\nloc: $location\nfreqStr: ${binding.entryEditFrequencyText.text}\nfreq: $recurFrequency\ntags: ${currentEntry.tags}"
+            )
+
         }
 
         // jump to calendar pop up window
@@ -97,13 +138,24 @@ class EntryEditFragment : Fragment() {
         // select labels
         binding.entryEditLabels.setOnClickListener {
             // TODO make TAG constant
-            //val frag = MultipleSelectPopUpFragment()
-            //frag.show(parentFragmentManager, "TAG")
+            var labels = currentEntry.tags
+            val frag = MultipleSelectPopUpFragment(labels)
+            frag.show(parentFragmentManager, "TAG")
         }
+    }
+
+    private fun AutoCompleteTextView.selectItem(text: String, position: Int = 0) {
+        this.setText(text)
+        //this.showDropDown() // expand dropdown
+        this.setSelection(position)
+        this.listSelection = position
+        this.performCompletion()
     }
 
     fun updateView() {
         // TODO for edit details
-        binding.entryEditLabels.text = Helpers.arrayToString(model.getCurrentEntry().tags)
+        // binding.entryEditLabels.text = Helpers.arrayToString(model.getCurrentEntry().tags)
+
+
     }
 }
