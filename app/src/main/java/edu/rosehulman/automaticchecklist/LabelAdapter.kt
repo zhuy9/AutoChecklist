@@ -29,7 +29,7 @@ class LabelAdapter(val fragment: InboxFragment) :
 
     override fun getItemCount() = model.getCurrentEntry().tags.size
 
-    fun addLabel(label: Label?) {
+    fun addLabel(label: String?) {
         Log.d(Helpers.TAG, "addLabel: ${label}")
         if (label != null) {
             model.getCurrentEntry().tags.add(label)
@@ -41,9 +41,9 @@ class LabelAdapter(val fragment: InboxFragment) :
         var labelView: ImageView = itemView.findViewById(R.id.label_icon)
         var labelText: TextView = itemView.findViewById(R.id.label_text)
 
-        fun bind(label: Label) {
-            labelView.setImageResource(label.source)
-            labelText.text = label.name
+        fun bind(label: String) {
+            labelView.setImageResource(Label.LABEL_CUSTOMIZED)
+            labelText.text = label
         }
     }
 }

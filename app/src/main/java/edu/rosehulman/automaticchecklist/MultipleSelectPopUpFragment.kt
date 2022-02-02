@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import edu.rosehulman.automaticchecklist.databinding.FragmentTextButtonBinding
 import edu.rosehulman.automaticchecklist.ui.EntriesViewModel
 
-class MultipleSelectPopUpFragment(var labels: ArrayList<Label>) : DialogFragment() {
+class MultipleSelectPopUpFragment(var labels: ArrayList<String>) : DialogFragment() {
 
     lateinit var model: EntriesViewModel
 
@@ -27,24 +27,23 @@ class MultipleSelectPopUpFragment(var labels: ArrayList<Label>) : DialogFragment
             val textArea = layoutInflater.inflate(R.layout.fragment_text_button, null)
             val addNewButton = textArea.findViewById<Button>(R.id.entry_edit_label_confirm_button)
             val addNewText = textArea.findViewById<EditText>(R.id.entry_edit_label_new_input)
-            val currentUserLabels: ArrayList<Label> = Helpers.defaultLabelArray
+
+            // TODO get current User
+            val currentUserLabels: ArrayList<String> = Helpers.defaultLabelStrings
             addNewButton.setOnClickListener {
                 val newLabel = addNewText.text.toString()
-                // TODO get current User
-
                 if (newLabel.isNotEmpty()
                     && newLabel.isNotBlank()
-                    && !Helpers.labelExistsIn(newLabel, currentUserLabels)
+                    && !currentUserLabels.contains(newLabel)
                 ) {
                     Log.d(Helpers.TAG, "CREATE NEW LABEL : $newLabel")
-                    val label = Label(newLabel)
                     // Helpers.defaultLabelArray.add(label)
-                    selectedLabels.add(label)
-                    currentUserLabels.add(label)
+                    selectedLabels.add(newLabel)
+                    currentUserLabels.add(newLabel)
 
                     // TODO FIXME update the selected items
                     builder.setMultiChoiceItems(
-                        Helpers.defaultLabelArray.map { label -> label.name }.toTypedArray(),
+                        currentUserLabels.toTypedArray(),
                         null
                     ) { dialog, index, checked ->
                         if (checked) {
@@ -60,7 +59,7 @@ class MultipleSelectPopUpFragment(var labels: ArrayList<Label>) : DialogFragment
                 .setTitle("Choose the labels")
                 .setView(textArea)
                 .setMultiChoiceItems(
-                    Helpers.defaultLabelArray.map { label -> label.name }.toTypedArray(),
+                    currentUserLabels.toTypedArray(),
                     null
                 ) { dialog, index, checked ->
                     if (checked) {

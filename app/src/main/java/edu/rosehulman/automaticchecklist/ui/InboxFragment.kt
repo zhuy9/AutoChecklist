@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import edu.rosehulman.automaticchecklist.Entry
 import edu.rosehulman.automaticchecklist.EntryAdapter
 import edu.rosehulman.automaticchecklist.Frequency
-import edu.rosehulman.automaticchecklist.Label
 import edu.rosehulman.automaticchecklist.databinding.FragmentInboxBinding
 
 
@@ -40,9 +39,7 @@ class InboxFragment : Fragment() {
             var entry: Entry = Entry()
             entry.content = "InboxFrag"
             entry.location = "Classroom"
-            entry.recurring = Frequency.EVERY_DAY
-            entry.tags.add(Label("C1", Label.LABEL_CUSTOMIZED))
-            entry.tags.add(Label("C2", Label.LABEL_CUSTOMIZED))
+            entry.recurring = Frequency.EVERY_DAY.toString()
             adapter.addEntry(entry)
         }
 

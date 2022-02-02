@@ -56,15 +56,17 @@ class EntryAdapter(private val fragment: InboxFragment) :
         private val locationTextView: TextView = itemView.findViewById(R.id.entry_location_text)
         val recyclerView: RecyclerView = itemView.findViewById(R.id.entry_labels)
         val labelAdapter: LabelAdapter = LabelAdapter(fragment)
+
         init {
 
             recyclerView.adapter = labelAdapter
-            recyclerView.layoutManager = LinearLayoutManager(itemView.context,LinearLayoutManager.HORIZONTAL, false)
+            recyclerView.layoutManager =
+                LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
             recyclerView.setHasFixedSize(true)
 
             editImageButton.setOnClickListener {
-            model.updatePos(adapterPosition)
-            fragment.findNavController().navigate(R.id.navigation_update)
+                model.updatePos(adapterPosition)
+                fragment.findNavController().navigate(R.id.navigation_update)
                 // TODO add animations
             }
 
@@ -97,27 +99,27 @@ class EntryAdapter(private val fragment: InboxFragment) :
 
         fun bind(entry: Entry) {
             Log.d(Helpers.TAG, "in bind of EntryAdpt $entry")
-            if(entry.recurring !== Frequency.NONE){
+            if (entry.recurring !== Frequency.NONE.toString()) {
                 timeIconView.visibility = VISIBLE
                 timeTextView.visibility = VISIBLE
                 timeIconView.setImageResource(Label.LABEL_RECURRING)
                 timeTextView.text = entry.recurring.toString()
-            }else if(entry.dueDate !== null){
+            } else if (entry.dueDate !== null) {
                 timeIconView.visibility = VISIBLE
                 timeTextView.visibility = VISIBLE
                 timeIconView.setImageResource(Label.LABEL_DUE)
                 timeTextView.text = "DATE"
-            }else{
+            } else {
                 timeIconView.visibility = GONE
                 timeTextView.visibility = GONE
             }
 
-            if(entry.location !== ""){
+            if (entry.location !== "") {
                 locationIconView.visibility = VISIBLE
                 locationTextView.visibility = VISIBLE
                 locationIconView.setImageResource(Label.LABEL_LOCATION)
                 locationTextView.text = entry.location
-            }else{
+            } else {
                 locationIconView.visibility = GONE
                 locationTextView.visibility = GONE
 

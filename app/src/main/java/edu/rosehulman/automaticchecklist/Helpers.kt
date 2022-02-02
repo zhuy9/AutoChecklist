@@ -7,7 +7,9 @@ import java.time.format.DateTimeFormatter
 
 object Helpers {
     const val TAG = "ACL"
-    var defaultLabelArray = arrayListOf<Label>(Label("School"), Label("Work"), Label("Leisure"))
+    //var defaultLabelArray = arrayListOf<Label>(Label("School"), Label("Work"), Label("Leisure"))
+
+    var defaultLabelStrings = arrayListOf<String>("school", "work", "leisure")
 
     fun parseFrequencyToArray() = enumValues<Frequency>().map {
         it.name.replace("_", " ")
@@ -15,13 +17,6 @@ object Helpers {
 
     fun parseSingleFrequency(f: Frequency) = f.name.replace("_", " ")
 
-    fun labelExistsIn(s: String, labels: ArrayList<Label>): Boolean {
-        for(label: Label in labels){
-            if (label.name === s)
-                return false
-        }
-        return true
-    }
 
     fun arrayToString(arr: ArrayList<Label>): String {
         var string = ""

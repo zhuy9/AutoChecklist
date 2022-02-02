@@ -15,7 +15,7 @@ class EntriesViewModel : ViewModel() {
     fun getCurrentEntry() = getEntryAt(currentPos)
 
     fun addEntry(entry: Entry?) {
-        if (entry !== null && entry is Entry){
+        if (entry !== null && entry is Entry) {
             entries.add(entry)
         } else {
             entries.add(Entry("${getRandom()}RANDOM"))

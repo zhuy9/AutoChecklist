@@ -49,11 +49,11 @@ class EntryEditFragment : Fragment() {
         }
 
         // set frequency dropdown
-        if (currentEntry.recurring !== Frequency.NONE) {
+        if (currentEntry.recurring !== Frequency.NONE.toString()) {
             binding.entryEditFrequency.visibility = VISIBLE
             binding.entryEditFrequencyText.selectItem(
-                Helpers.parseSingleFrequency(currentEntry.recurring), // string
-                enumValues<Frequency>().indexOf(currentEntry.recurring) // index
+                currentEntry.recurring, // string
+                enumValues<Frequency>().indexOf(Frequency.valueOf(currentEntry.recurring)) // index
             )
             binding.entryEditCheckbox.setImageResource(Entry.checkboxCheckedIconSource)
             binding.entryEditChooseDate.isEnabled = false
@@ -109,12 +109,10 @@ class EntryEditFragment : Fragment() {
             // val checkedStat: Boolean = !binding.entryEditChooseDate.isEnabled
             val dueLocalDate: LocalDate? = null
             val location: String = binding.entryEditLocation.text.toString()
-            val recurFrequency: Frequency? = Frequency.values().find {
-                it.name === binding.entryEditFrequencyText.text.toString().replace(" ", "_")
-            }
+            val recurFrequency = binding.entryEditFrequencyText.text.toString()
             Log.d(
                 Helpers.TAG,
-                "Content: $content\ndueDate: $dueLocalDate\nloc: $location\nfreqStr: ${binding.entryEditFrequencyText.text}\nfreq: $recurFrequency\ntags: ${currentEntry.tags}"
+                "Content: $content\ndueDate: $dueLocalDate\nloc: $location\nfreq: $recurFrequency\ntags: ${currentEntry.tags}"
             )
 
         }
