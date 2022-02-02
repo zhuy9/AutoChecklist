@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_inbox">
+    app:startDestination="@+id/navigation_welcome">
 
     <fragment
         android:id="@+id/navigation_inbox"
@@ -14,14 +14,14 @@
     <fragment
         android:id="@+id/navigation_create"
         android:name="edu.rosehulman.automaticchecklist.EntryEditFragment"
-        android:label="Create"
-        tools:layout="@layout/fragment_entry_edit"/>
+        android:label="@string/create"
+        tools:layout="@layout/fragment_entry_edit" />
 
     <fragment
         android:id="@+id/navigation_update"
         android:name="edu.rosehulman.automaticchecklist.EntryEditFragment"
-        android:label="Update"
-        tools:layout="@layout/fragment_entry_edit"/>
+        android:label="@string/update"
+        tools:layout="@layout/fragment_entry_edit" />
 
     <fragment
         android:id="@+id/navigation_category"
@@ -31,7 +31,19 @@
 
     <fragment
         android:id="@+id/navigation_user"
-        android:name="edu.rosehulman.automaticchecklist.ui.notifications.UserFragment"
+        android:name="edu.rosehulman.automaticchecklist.ui.UserFragment"
         android:label="@string/user"
         tools:layout="@layout/fragment_user" />
+
+    <fragment
+        android:id="@+id/navigation_user_edit"
+        android:name="edu.rosehulman.automaticchecklist.ui.UserEditFragment"
+        android:label="@string/user"
+        tools:layout="@layout/fragment_user_edit" />
+
+    <fragment
+        android:id="@+id/navigation_welcome"
+        android:label="@string/welcome"
+        android:name="edu.rosehulman.automaticchecklist.ui.WelcomeFragment"
+        tools:layout="@layout/fragment_welcome" />
 </navigation>

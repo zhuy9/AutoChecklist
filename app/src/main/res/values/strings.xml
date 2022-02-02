@@ -7,4 +7,18 @@
     <string name="category">Category</string>
     <string name="user">User</string>
     <string name="padding">20dp</string>
+    <string name="user_name">USER_NAME</string>
+    <string name="user_labels">USER_LABELS</string>
+    <string name="logout">logout</string>
+    <string name="edit">edit</string>
+    <string name="edit_your_profile">Edit your profile</string>
+    <string name="your_name">Your name</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="done">Done</string>
+    <string name="create">Create</string>
+    <string name="update">Update</string>
+    <string name="xx_years_old">XX years old</string>
+    <string name="your_age">Your age</string>
+    <string name="app_is_loading">App is loading...</string>
+    <string name="welcome">Welcome</string>
 </resources>

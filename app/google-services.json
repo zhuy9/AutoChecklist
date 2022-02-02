@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1026979105397",
+    "project_id": "zhuy9-auto-checklist",
+    "storage_bucket": "zhuy9-auto-checklist.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1026979105397:android:0d390cc4d985737013463c",
+        "android_client_info": {
+          "package_name": "edu.rosehulman.automaticchecklist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1026979105397-vf26uaea64ngff3h549knjujp6kojl0p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHVo7DPKKgxu0ZqtyapuNyIxu6tqBNZsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1026979105397-vf26uaea64ngff3h549knjujp6kojl0p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
