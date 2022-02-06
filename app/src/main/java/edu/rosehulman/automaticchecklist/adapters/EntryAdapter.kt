@@ -39,8 +39,8 @@ class EntryAdapter(private val fragment: InboxFragment) :
 
     override fun getItemCount() = model.size()
 
-    fun addEntry(entry: Entry?) {
-        model.addEntry(entry)
+    fun addEntry(entry: Entry?, updatePos: Boolean = false) {
+        model.addEntry(entry, updatePos)
         notifyDataSetChanged()
     }
 
@@ -115,7 +115,7 @@ class EntryAdapter(private val fragment: InboxFragment) :
                 timeTextView.visibility = GONE
             }
 
-            if (entry.location !== "") {
+            if (entry.location.isNotBlank()) {
                 locationIconView.visibility = VISIBLE
                 locationTextView.visibility = VISIBLE
                 locationIconView.setImageResource(Label.LABEL_LOCATION)
@@ -123,7 +123,6 @@ class EntryAdapter(private val fragment: InboxFragment) :
             } else {
                 locationIconView.visibility = GONE
                 locationTextView.visibility = GONE
-
             }
 
             // entry.tags.forEach { labelAdapter.addLabel(it) }

@@ -1,6 +1,5 @@
 package edu.rosehulman.automaticchecklist.ui
 
-import android.R
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,9 +9,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.LinearLayout
+import edu.rosehulman.automaticchecklist.R
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import edu.rosehulman.automaticchecklist.Frequency
@@ -46,11 +47,11 @@ class EntryEditFragment : Fragment() {
 
         // prefill the form
         val currentEntry = model.getCurrentEntry()
-        if (currentEntry.content !== "") {
+        if (currentEntry.content.isNotBlank()) {
             binding.entryEditText.setText(currentEntry.content)
         }
 
-        if (currentEntry.location !== "") {
+        if (currentEntry.location.isNotBlank()) {
             binding.entryEditLocation.setText(currentEntry.location)
         }
 
@@ -59,7 +60,14 @@ class EntryEditFragment : Fragment() {
             binding.entryEditFrequency.visibility = VISIBLE
             binding.entryEditFrequencyText.selectItem(
                 currentEntry.recurring, // string
-                enumValues<Frequency>().indexOf(Frequency.valueOf(currentEntry.recurring)) // index
+                enumValues<Frequency>().indexOf(
+                    Frequency.valueOf(
+                        currentEntry.recurring.replace(
+                            " ",
+                            "_"
+                        )
+                    )
+                ) // index
             )
             binding.entryEditCheckbox.setImageResource(Entry.checkboxCheckedIconSource)
             binding.entryEditChooseDate.isEnabled = false
@@ -95,7 +103,7 @@ class EntryEditFragment : Fragment() {
         binding.entryEditFrequencyText.setAdapter(
             ArrayAdapter(
                 requireContext(),
-                R.layout.simple_spinner_dropdown_item,
+                android.R.layout.simple_spinner_dropdown_item,
                 Helpers.parseFrequencyToArray() // TODO
             )
         )
@@ -108,19 +116,25 @@ class EntryEditFragment : Fragment() {
             // TODO more to be saved
             if (content.isNullOrBlank()) {
                 binding.entryEditWarning1.visibility = VISIBLE
-            } else {
-                binding.entryEditWarning1.visibility = INVISIBLE
+                return@setOnClickListener
             }
+
+            binding.entryEditWarning1.visibility = INVISIBLE
+            currentEntry.content = content
             // IF frequency is NONE
             // val checkedStat: Boolean = !binding.entryEditChooseDate.isEnabled
             val dueLocalDate: LocalDate? = null
-            val location: String = binding.entryEditLocation.text.toString()
-            val recurFrequency = binding.entryEditFrequencyText.text.toString()
+            val locString = binding.entryEditLocation.text.toString()
+            if (locString.isNotBlank())
+                currentEntry.location = locString
+            val recurString = binding.entryEditFrequencyText.text.toString()
+            if (recurString.isNotBlank())
+                currentEntry.recurring = recurString
             Log.d(
                 Helpers.TAG,
-                "\nContent: $content\ndueDate: $dueLocalDate\nloc: $location\nfreq: $recurFrequency\ntags: ${currentEntry.tags}"
+                "\n\nContent: $content\ndueDate: $dueLocalDate\nloc: ${currentEntry.location}\nfreq: ${currentEntry.recurring}\ntags: ${currentEntry.tags}"
             )
-
+            findNavController().navigate(R.id.navigation_inbox)
         }
 
         // jump to calendar pop up window
@@ -140,15 +154,12 @@ class EntryEditFragment : Fragment() {
         }
 
         // select labels
-        binding.entryEditLabels.setOnClickListener {
-            // TODO make TAG constant
-            var labels = currentEntry.tags
-            var adapter = LabelSelectAdapter(this)
-            binding.entryEditLabelRecyclerView.adapter = adapter
-            binding.entryEditLabelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-            //val frag = MultipleSelectPopUpFragment(labels)
-            //frag.show(parentFragmentManager, "TAG")
-        }
+        var adapter = LabelSelectAdapter(this)
+        binding.entryEditLabelRecyclerView.adapter = adapter
+        binding.entryEditLabelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        //val frag = MultipleSelectPopUpFragment(labels)
+        //frag.show(parentFragmentManager, "TAG")
+
     }
 
     private fun AutoCompleteTextView.selectItem(text: String, position: Int = 0) {

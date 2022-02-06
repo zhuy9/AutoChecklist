@@ -11,13 +11,17 @@ class EntriesViewModel : ViewModel() {
     private var oldVal: Entry? = null
 
     fun getEntryAt(pos: Int) = entries[pos]
+
     fun getCurrentEntry() = getEntryAt(currentPos)
 
-    fun addEntry(entry: Entry?) {
-        if (entry !== null && entry is Entry) {
+    fun addEntry(entry: Entry?, updatePos: Boolean) {
+        if (entry !== null) {
             entries.add(entry)
         } else {
             entries.add(Entry("${getRandom()}RANDOM"))
+        }
+        if (updatePos) {
+            currentPos = entries.size - 1
         }
         // TODO set labels, recurring state, etc.
     }

@@ -10,7 +10,7 @@ data class Entry(
     var location: String = "",
     var recurring: String = Frequency.NONE.toString(),
     // var recurringOn: DayOfWeek? = null,
-    var tags: ArrayList<String> = ArrayList()
+    var tags: ArrayList<String> = ArrayList() // TODO change arraylist to SET
 ) {
     companion object {
         const val checkboxCheckedIconSource = R.drawable.ic_baseline_check_box_24

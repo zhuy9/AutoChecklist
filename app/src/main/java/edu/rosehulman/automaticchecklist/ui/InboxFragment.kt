@@ -1,15 +1,19 @@
 package edu.rosehulman.automaticchecklist.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.rosehulman.automaticchecklist.models.Entry
 import edu.rosehulman.automaticchecklist.adapters.EntryAdapter
 import edu.rosehulman.automaticchecklist.Frequency
+import edu.rosehulman.automaticchecklist.Helpers
+import edu.rosehulman.automaticchecklist.R
 import edu.rosehulman.automaticchecklist.databinding.FragmentInboxBinding
 
 
@@ -36,11 +40,10 @@ class InboxFragment : Fragment() {
         )
 
         binding.fab.setOnClickListener {
-            var entry: Entry = Entry()
-            entry.content = "InboxFrag"
-            entry.location = "Classroom"
-            entry.recurring = Frequency.EVERY_DAY.toString()
-            adapter.addEntry(entry)
+            adapter.addEntry(Entry(), updatePos = true)
+            Log.d(Helpers.TAG, "FAB clicked!")
+            findNavController().navigate(R.id.navigation_create)
+
         }
 
         return binding.root

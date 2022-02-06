@@ -90,8 +90,8 @@
             android:id="@+id/entry_edit_frequency_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="none"
-            android:text="Choose Recurring Frequency" />
+            android:hint="Choose Recurring Frequency"
+            android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,24 +121,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20sp"
-        android:background="@android:drawable/editbox_background"
-        android:drawablePadding="16dp"
         android:hint="Choose Label(s)"
-        android:padding="10dp"
-        android:textSize="20sp"
-        app:drawableRightCompat="@drawable/ic_outline_arrow_drop_down_circle_24" />
+        android:textSize="20sp" />
 
     <RelativeLayout
         android:id="@+id/entry_edit_label_selections_create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30sp">
+        android:layout_marginLeft="30sp"
+        android:layout_marginRight="30sp">
 
         <RelativeLayout
             android:id="@+id/entry_edit_label_create"
             android:layout_width="wrap_content"
-            android:visibility="gone"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <EditText
                 android:id="@+id/entry_edit_label_new_input"
@@ -160,9 +157,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/entry_edit_label_recycler_view"
-            android:layout_below="@id/entry_edit_label_create"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/entry_edit_label_create" />
     </RelativeLayout>
 
     <RelativeLayout
