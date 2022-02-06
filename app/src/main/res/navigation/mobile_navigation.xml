@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_create"
-        android:name="edu.rosehulman.automaticchecklist.EntryEditFragment"
+        android:name="edu.rosehulman.automaticchecklist.ui.EntryEditFragment"
         android:label="@string/create"
         tools:layout="@layout/fragment_entry_edit" />
 
     <fragment
         android:id="@+id/navigation_update"
-        android:name="edu.rosehulman.automaticchecklist.EntryEditFragment"
+        android:name="edu.rosehulman.automaticchecklist.ui.EntryEditFragment"
         android:label="@string/update"
         tools:layout="@layout/fragment_entry_edit" />
 

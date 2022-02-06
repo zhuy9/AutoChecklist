@@ -1,25 +1,26 @@
-package edu.rosehulman.automaticchecklist
+package edu.rosehulman.automaticchecklist.adapters
 
 import android.graphics.Paint
-import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.webkit.RenderProcessGoneDetail
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import edu.rosehulman.automaticchecklist.ui.EntriesViewModel
+import edu.rosehulman.automaticchecklist.Frequency
+import edu.rosehulman.automaticchecklist.Helpers
+import edu.rosehulman.automaticchecklist.R
+import edu.rosehulman.automaticchecklist.models.EntriesViewModel
+import edu.rosehulman.automaticchecklist.models.Entry
+import edu.rosehulman.automaticchecklist.models.Label
 import edu.rosehulman.automaticchecklist.ui.InboxFragment
 
 class EntryAdapter(private val fragment: InboxFragment) :

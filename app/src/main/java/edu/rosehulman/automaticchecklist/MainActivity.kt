@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import edu.rosehulman.automaticchecklist.databinding.ActivityMainBinding
-import edu.rosehulman.automaticchecklist.ui.UserViewModel
+import edu.rosehulman.automaticchecklist.models.UserViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -100,11 +100,9 @@ class MainActivity : AppCompatActivity() {
                         }
                     } else {
                         navController.navigate(R.id.navigation_user_edit)
-
                     }
                 }
             }
-
         }
     }
 }

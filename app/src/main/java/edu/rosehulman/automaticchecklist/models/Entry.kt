@@ -1,4 +1,7 @@
-package edu.rosehulman.automaticchecklist
+package edu.rosehulman.automaticchecklist.models
+
+import edu.rosehulman.automaticchecklist.Frequency
+import edu.rosehulman.automaticchecklist.R
 
 data class Entry(
     var content: String = "",

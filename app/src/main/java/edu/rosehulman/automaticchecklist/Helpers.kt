@@ -1,5 +1,6 @@
 package edu.rosehulman.automaticchecklist
 
+import edu.rosehulman.automaticchecklist.models.Label
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId

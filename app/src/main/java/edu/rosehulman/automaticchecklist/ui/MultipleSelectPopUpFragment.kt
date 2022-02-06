@@ -1,18 +1,16 @@
-package edu.rosehulman.automaticchecklist
+package edu.rosehulman.automaticchecklist.ui
 
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import edu.rosehulman.automaticchecklist.databinding.FragmentTextButtonBinding
-import edu.rosehulman.automaticchecklist.ui.EntriesViewModel
+import edu.rosehulman.automaticchecklist.Helpers
+import edu.rosehulman.automaticchecklist.R
+import edu.rosehulman.automaticchecklist.models.EntriesViewModel
 
 class MultipleSelectPopUpFragment(var labels: ArrayList<String>) : DialogFragment() {
 

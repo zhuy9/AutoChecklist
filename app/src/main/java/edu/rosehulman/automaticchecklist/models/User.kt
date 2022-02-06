@@ -1,8 +1,6 @@
-package edu.rosehulman.automaticchecklist.ui
+package edu.rosehulman.automaticchecklist.models
 
-import edu.rosehulman.automaticchecklist.Helpers
 import edu.rosehulman.automaticchecklist.Helpers.defaultLabelStrings
-import edu.rosehulman.automaticchecklist.Label
 
 data class User(
     var name: String = "",

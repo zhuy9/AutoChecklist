@@ -1,4 +1,4 @@
-package edu.rosehulman.automaticchecklist
+package edu.rosehulman.automaticchecklist.ui
 
 import android.R
 import android.os.Bundle
@@ -9,12 +9,18 @@ import android.view.View.*
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.datepicker.MaterialDatePicker
+import edu.rosehulman.automaticchecklist.Frequency
+import edu.rosehulman.automaticchecklist.Helpers
+import edu.rosehulman.automaticchecklist.adapters.LabelSelectAdapter
 import edu.rosehulman.automaticchecklist.databinding.FragmentEntryEditBinding
-import edu.rosehulman.automaticchecklist.ui.EntriesViewModel
+import edu.rosehulman.automaticchecklist.models.EntriesViewModel
+import edu.rosehulman.automaticchecklist.models.Entry
 import java.time.LocalDate
 
 class EntryEditFragment : Fragment() {
@@ -112,7 +118,7 @@ class EntryEditFragment : Fragment() {
             val recurFrequency = binding.entryEditFrequencyText.text.toString()
             Log.d(
                 Helpers.TAG,
-                "Content: $content\ndueDate: $dueLocalDate\nloc: $location\nfreq: $recurFrequency\ntags: ${currentEntry.tags}"
+                "\nContent: $content\ndueDate: $dueLocalDate\nloc: $location\nfreq: $recurFrequency\ntags: ${currentEntry.tags}"
             )
 
         }
@@ -137,8 +143,11 @@ class EntryEditFragment : Fragment() {
         binding.entryEditLabels.setOnClickListener {
             // TODO make TAG constant
             var labels = currentEntry.tags
-            val frag = MultipleSelectPopUpFragment(labels)
-            frag.show(parentFragmentManager, "TAG")
+            var adapter = LabelSelectAdapter(this)
+            binding.entryEditLabelRecyclerView.adapter = adapter
+            binding.entryEditLabelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            //val frag = MultipleSelectPopUpFragment(labels)
+            //frag.show(parentFragmentManager, "TAG")
         }
     }
 

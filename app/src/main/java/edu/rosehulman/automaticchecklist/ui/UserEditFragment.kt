@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import edu.rosehulman.automaticchecklist.Helpers
 import edu.rosehulman.automaticchecklist.R
 import edu.rosehulman.automaticchecklist.databinding.FragmentUserEditBinding
+import edu.rosehulman.automaticchecklist.models.UserViewModel
 
 
 class UserEditFragment : Fragment() {

@@ -1,7 +1,6 @@
-package edu.rosehulman.automaticchecklist.ui
+package edu.rosehulman.automaticchecklist.models
 
 import androidx.lifecycle.ViewModel
-import edu.rosehulman.automaticchecklist.Entry
 import kotlin.random.Random
 
 class EntriesViewModel : ViewModel() {

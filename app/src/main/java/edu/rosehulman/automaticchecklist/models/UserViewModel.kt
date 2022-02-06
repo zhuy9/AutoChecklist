@@ -1,4 +1,4 @@
-package edu.rosehulman.automaticchecklist.ui
+package edu.rosehulman.automaticchecklist.models
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

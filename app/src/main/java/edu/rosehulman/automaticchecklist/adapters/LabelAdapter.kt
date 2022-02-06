@@ -1,4 +1,4 @@
-package edu.rosehulman.automaticchecklist
+package edu.rosehulman.automaticchecklist.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,7 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import edu.rosehulman.automaticchecklist.ui.EntriesViewModel
+import edu.rosehulman.automaticchecklist.Helpers
+import edu.rosehulman.automaticchecklist.R
+import edu.rosehulman.automaticchecklist.models.EntriesViewModel
+import edu.rosehulman.automaticchecklist.models.Label
 import edu.rosehulman.automaticchecklist.ui.InboxFragment
 
 class LabelAdapter(val fragment: InboxFragment) :
@@ -18,12 +21,12 @@ class LabelAdapter(val fragment: InboxFragment) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): LabelAdapter.LabelViewHolder {
+    ): LabelViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.label, parent, false)
         return LabelViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: LabelAdapter.LabelViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LabelViewHolder, position: Int) {
         holder.bind(model.getCurrentEntry().tags[position])
     }
 

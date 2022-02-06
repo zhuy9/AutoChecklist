@@ -78,8 +78,8 @@
     </RelativeLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:id="@+id/entry_edit_frequency"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -129,6 +129,43 @@
         app:drawableRightCompat="@drawable/ic_outline_arrow_drop_down_circle_24" />
 
     <RelativeLayout
+        android:id="@+id/entry_edit_label_selections_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30sp">
+
+        <RelativeLayout
+            android:id="@+id/entry_edit_label_create"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/entry_edit_label_new_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/entry_edit_label_confirm_button"
+                android:hint="Create a new label"
+                android:importantForAutofill="no"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/entry_edit_label_confirm_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="CREATE" />
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/entry_edit_label_recycler_view"
+            android:layout_below="@id/entry_edit_label_create"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20sp">
@@ -136,8 +173,8 @@
         <Button
             android:id="@+id/entry_edit_save_button"
             android:layout_width="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:text="SAVE" />
 
     </RelativeLayout>

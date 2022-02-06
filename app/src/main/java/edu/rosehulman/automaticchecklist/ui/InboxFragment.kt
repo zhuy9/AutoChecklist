@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import edu.rosehulman.automaticchecklist.Entry
-import edu.rosehulman.automaticchecklist.EntryAdapter
+import edu.rosehulman.automaticchecklist.models.Entry
+import edu.rosehulman.automaticchecklist.adapters.EntryAdapter
 import edu.rosehulman.automaticchecklist.Frequency
 import edu.rosehulman.automaticchecklist.databinding.FragmentInboxBinding
 
