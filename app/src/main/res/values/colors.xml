@@ -18,4 +18,6 @@
     <color name="secondaryTextColor">#e3f2fd</color>
     <color name="gray">#FFDDDDDD</color>
     <color name="warning">#FFD0312D</color>
+    <color name="deepPurple">#FF673ab7</color>
+    <color name="deepTeal">#FF00796b</color>
 </resources>

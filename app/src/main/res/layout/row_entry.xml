@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -58,35 +59,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:src="@drawable/ic_baseline_repeat_24" />
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_repeat_24"
+                app:tint="@color/deepPurple" />
 
             <TextView
                 android:id="@+id/entry_time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/entry_time_icon"
-                android:text="D/R" />
+                android:text="D/R"
+                android:textColor="@color/deepPurple" />
 
             <ImageView
                 android:id="@+id/entry_location_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/entry_time_text"
-                android:src="@drawable/ic_baseline_location_on_24" />
+                android:src="@drawable/ic_baseline_location_on_24"
+                app:tint="@color/deepTeal" />
 
             <TextView
                 android:id="@+id/entry_location_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/entry_location_icon"
-                android:text="LOC" />
+                android:text="LOC"
+                android:textColor="@color/deepTeal" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/entry_labels"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/entry_location_text"
-                android:background="@color/secondaryLightColor"
                 android:orientation="horizontal" />
 
         </RelativeLayout>

@@ -157,7 +157,6 @@ class EntryEditFragment : Fragment() {
         var adapter = LabelSelectAdapter(this)
         binding.entryEditLabelRecyclerView.adapter = adapter
         binding.entryEditLabelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        //val frag = MultipleSelectPopUpFragment(labels)
         //frag.show(parentFragmentManager, "TAG")
 
     }

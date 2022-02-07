@@ -112,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/entry_edit_location_icon"
-            android:hint="location"
+            android:hint="Location"
             android:textSize="20sp" />
     </RelativeLayout>
 
