@@ -9,14 +9,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.automaticchecklist.R
 import edu.rosehulman.automaticchecklist.models.EntriesViewModel
+import edu.rosehulman.automaticchecklist.models.Entry
 import edu.rosehulman.automaticchecklist.models.UserViewModel
 import edu.rosehulman.automaticchecklist.ui.EntryEditFragment
 
-class LabelSelectAdapter(val fragment: EntryEditFragment) :
+class LabelSelectAdapter(
+    val fragment: EntryEditFragment,
+    var current: Entry?
+) :
     RecyclerView.Adapter<LabelSelectAdapter.LabelSelectViewHolder>() {
     val entryModel = ViewModelProvider(fragment.requireActivity()).get(EntriesViewModel::class.java)
     val userModel = ViewModelProvider(fragment.requireActivity()).get(UserViewModel::class.java)
-
+    val currentEntry = if (!entryModel.onCreate) entryModel.getCurrentEntry() else current
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -27,7 +31,7 @@ class LabelSelectAdapter(val fragment: EntryEditFragment) :
     }
 
     override fun onBindViewHolder(holder: LabelSelectViewHolder, position: Int) {
-        holder.bind(userModel.user!!.labels[position], entryModel.getCurrentEntry().tags)
+        holder.bind(userModel.user!!.labels[position], currentEntry!!.tags)
     }
 
     override fun getItemCount() = userModel.user!!.labels.size
@@ -40,12 +44,12 @@ class LabelSelectAdapter(val fragment: EntryEditFragment) :
         init {
             cb.setOnClickListener {
                 if (cb.isChecked) {
-                    if (!entryModel.getCurrentEntry().tags.contains(labelText.text.toString())) {
-                        entryModel.getCurrentEntry().tags.add(labelText.text.toString())
+                    if (!currentEntry!!.tags.contains(labelText.text.toString())) {
+                        currentEntry.tags.add(labelText.text.toString())
                     }
                 } else {
-                    if (entryModel.getCurrentEntry().tags.contains(labelText.text.toString())) {
-                        entryModel.getCurrentEntry().tags.remove(labelText.text.toString())
+                    if (currentEntry!!.tags.contains(labelText.text.toString())) {
+                        currentEntry.tags.remove(labelText.text.toString())
                     }
                 }
             }

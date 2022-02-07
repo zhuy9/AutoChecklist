@@ -112,7 +112,7 @@ class EntryAdapter(private val fragment: InboxFragment) :
                 labelTextView.visibility = VISIBLE
                 labelTextView.text = entry.tags.joinToString(",")
             }
-            if (entry.recurring !== Frequency.NONE.toString()) {
+            if (entry.recurring != Frequency.NONE.toString()) {
                 timeIconView.visibility = VISIBLE
                 timeTextView.visibility = VISIBLE
                 timeIconView.setImageResource(Label.LABEL_RECURRING)

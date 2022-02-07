@@ -53,7 +53,7 @@ class EntryEditFragment : Fragment() {
             binding.entryEditLocation.setText(currentEntry.location)
         }
         // set frequency dropdown
-        if (currentEntry.recurring !== Frequency.NONE.toString()) {
+        if (currentEntry.recurring != Frequency.NONE.toString()) {
             binding.entryEditFrequency.visibility = VISIBLE
             binding.entryEditFrequencyText.selectItem(
                 currentEntry.recurring, // string
@@ -147,7 +147,7 @@ class EntryEditFragment : Fragment() {
         }
 
         // select labels
-        var adapter = LabelSelectAdapter(this)
+        var adapter = LabelSelectAdapter(this, currentEntry)
         binding.entryEditLabelRecyclerView.adapter = adapter
         binding.entryEditLabelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }

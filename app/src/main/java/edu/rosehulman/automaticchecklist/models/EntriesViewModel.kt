@@ -18,16 +18,15 @@ class EntriesViewModel : ViewModel() {
     private var currentDocId: String = ""
     private lateinit var ref: CollectionReference
     private val subscriptions = HashMap<String, ListenerRegistration>()
-    private var addNew = false
+    var onCreate = false
 
     fun addNew() {
-        addNew = true
+        onCreate = true
     }
 
     fun getEntryAt(pos: Int): Entry {
         Log.d(Helpers.TAG, "getEntryAt: $pos, curPos: $currentPos, length = ${entries.size}")
-        if (addNew || entries.size == 0 || pos >= entries.size || pos < 0) {
-            addNew = false
+        if (onCreate || entries.size == 0 || pos >= entries.size || pos < 0) {
             return Entry()
         }
         return entries[pos]
@@ -66,7 +65,10 @@ class EntriesViewModel : ViewModel() {
             val e = Entry("${getRandom()}Edit me!")
             ref.add(e)
             entries.add(e)
-            Log.d(Helpers.TAG, "currentPOS($currentPos) sz(${entries.size}): ${entries.joinToString("::")}")
+            Log.d(
+                Helpers.TAG,
+                "currentPOS($currentPos) sz(${entries.size}): ${entries.joinToString("::")}"
+            )
             currentPos = entries.size - 1
 
         }
@@ -75,12 +77,12 @@ class EntriesViewModel : ViewModel() {
     fun getRandom() = Random.nextInt(100)
 
     fun updateCurrentEntry(entry: Entry?) {
+        if (onCreate) onCreate = false
         Log.d(Helpers.TAG, "---------------------ERROR LOCATION: ${entry!!.id}")
         if (entry.id.isNotBlank())
             ref.document(entry.id).set(entry)
         else
             addEntry(entry)
-        // TODO more elements to udpate
     }
 
     fun deleteCurrentEntry() {
