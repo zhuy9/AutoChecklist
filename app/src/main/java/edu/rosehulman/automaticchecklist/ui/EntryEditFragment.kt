@@ -44,17 +44,14 @@ class EntryEditFragment : Fragment() {
     }
 
     fun setups() {
-
         // prefill the form
         val currentEntry = model.getCurrentEntry()
         if (currentEntry.content.isNotBlank()) {
             binding.entryEditText.setText(currentEntry.content)
         }
-
         if (currentEntry.location.isNotBlank()) {
             binding.entryEditLocation.setText(currentEntry.location)
         }
-
         // set frequency dropdown
         if (currentEntry.recurring !== Frequency.NONE.toString()) {
             binding.entryEditFrequency.visibility = VISIBLE
@@ -62,10 +59,7 @@ class EntryEditFragment : Fragment() {
                 currentEntry.recurring, // string
                 enumValues<Frequency>().indexOf(
                     Frequency.valueOf(
-                        currentEntry.recurring.replace(
-                            " ",
-                            "_"
-                        )
+                        currentEntry.recurring.replace(" ", "_")
                     )
                 ) // index
             )
@@ -78,7 +72,6 @@ class EntryEditFragment : Fragment() {
             binding.entryEditCheckbox.setImageResource(Entry.checkboxNotCheckedIconSource)
             binding.entryEditFrequency.visibility = GONE
         }
-
 
         // hide warning for content
         binding.entryEditWarning1.visibility = INVISIBLE
@@ -134,6 +127,7 @@ class EntryEditFragment : Fragment() {
                 Helpers.TAG,
                 "\n\nContent: $content\ndueDate: $dueLocalDate\nloc: ${currentEntry.location}\nfreq: ${currentEntry.recurring}\ntags: ${currentEntry.tags}"
             )
+            model.updateCurrentEntry(currentEntry)
             findNavController().navigate(R.id.navigation_inbox)
         }
 
@@ -150,15 +144,12 @@ class EntryEditFragment : Fragment() {
 
             // TODO make TAG constant
             picker.show(parentFragmentManager, "TAG")
-
         }
 
         // select labels
         var adapter = LabelSelectAdapter(this)
         binding.entryEditLabelRecyclerView.adapter = adapter
         binding.entryEditLabelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        //frag.show(parentFragmentManager, "TAG")
-
     }
 
     private fun AutoCompleteTextView.selectItem(text: String, position: Int = 0) {

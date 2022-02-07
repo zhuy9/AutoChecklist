@@ -44,6 +44,7 @@ class UserFragment : Fragment() {
                 Log.d(Helpers.TAG, "$this")
                 binding.userName.setText(name)
                 binding.userAge.setText(age.toString())
+                binding.userLabels.setText(labels.joinToString(separator = ","))
             }
         }
     }

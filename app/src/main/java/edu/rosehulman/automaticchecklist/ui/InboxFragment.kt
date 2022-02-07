@@ -21,6 +21,7 @@ class InboxFragment : Fragment() {
 
     // private lateinit var entriesViewModel: EntriesViewModel
     private lateinit var binding: FragmentInboxBinding
+    private lateinit var adapter: EntryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,8 +29,9 @@ class InboxFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentInboxBinding.inflate(inflater, container, false)
-        val adapter = EntryAdapter(this)
+        adapter = EntryAdapter(this)
         binding.recyclerView.adapter = adapter
+        adapter.addListener(fragmentName)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.addItemDecoration(
@@ -40,8 +42,9 @@ class InboxFragment : Fragment() {
         )
 
         binding.fab.setOnClickListener {
-            adapter.addEntry(Entry(), updatePos = true)
             Log.d(Helpers.TAG, "FAB clicked!")
+            //adapter.model.addNew()
+            adapter.addEntry(null)
             findNavController().navigate(R.id.navigation_create)
 
         }
@@ -49,4 +52,12 @@ class InboxFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adapter.removeListener(fragmentName)
+    }
+
+    companion object {
+        const val fragmentName = "InboxFragment"
+    }
 }

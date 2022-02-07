@@ -1,47 +1,100 @@
 package edu.rosehulman.automaticchecklist.models
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.*
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import edu.rosehulman.automaticchecklist.Helpers
 import kotlin.random.Random
 
 class EntriesViewModel : ViewModel() {
 
     private var entries = ArrayList<Entry>()
     var currentPos = 0
-    var oldPos = -1
+    var oldPos = -14
     private var oldVal: Entry? = null
+    private var currentDocId: String = ""
+    private lateinit var ref: CollectionReference
+    private val subscriptions = HashMap<String, ListenerRegistration>()
+    private var addNew = false
 
-    fun getEntryAt(pos: Int) = entries[pos]
+    fun addNew() {
+        //addNew = true
+    }
+
+    fun getEntryAt(pos: Int): Entry {
+        Log.d(Helpers.TAG, "getEntryAt: $pos, curPos: $currentPos, length = ${entries.size}")
+        if (entries.size == 0 || pos >= entries.size || pos < 0) {
+            return Entry()
+        }
+        return entries[pos]
+    }
 
     fun getCurrentEntry() = getEntryAt(currentPos)
 
-    fun addEntry(entry: Entry?, updatePos: Boolean) {
-        if (entry !== null) {
-            entries.add(entry)
+    fun removeListener(fragmentName: String) {
+        subscriptions[fragmentName]?.remove()
+        subscriptions.remove(fragmentName)
+    }
+
+    fun addListener(fragmentName: String, observer: () -> Unit) {
+        val uid = Firebase.auth.currentUser!!.uid
+        ref = Firebase.firestore.collection(User.COLLECTION_PATH).document(uid)
+            .collection(Entry.COLLECTION_PATH)
+        val subscription = ref.orderBy(Entry.CREATED_KEY, Query.Direction.ASCENDING)
+            .addSnapshotListener { snapShot: QuerySnapshot?, error: FirebaseFirestoreException? ->
+                error?.let {
+                    Log.d(Helpers.TAG, "Error : $error")
+                    return@addSnapshotListener
+                }
+                entries.clear()
+                snapShot?.documents?.forEach {
+                    entries.add(Entry.from(it))
+                }
+                observer()
+            }
+        subscriptions[fragmentName] = subscription
+    }
+
+    fun addEntry(entry: Entry?) {
+        if (entry != null) {
+            ref.add(entry)
         } else {
-            entries.add(Entry("${getRandom()}RANDOM"))
-        }
-        if (updatePos) {
+            val e = Entry("${getRandom()}Edit me!")
+            ref.add(e)
+            entries.add(e)
+            Log.d(Helpers.TAG, "currentPOS($currentPos) sz(${entries.size}): ${entries.joinToString("::")}")
             currentPos = entries.size - 1
+
         }
-        // TODO set labels, recurring state, etc.
     }
 
     fun getRandom() = Random.nextInt(100)
 
-    fun updateCurrentEntry(content: String) {
-        entries[currentPos].content = content
+    fun updateCurrentEntry(entry: Entry?) {
+        Log.d(Helpers.TAG, "---------------------ERROR LOCATION: ${entry!!.id}")
+        if (entry.id.isNotBlank())
+            ref.document(entry.id).set(entry)
+        else
+            addEntry(entry)
         // TODO more elements to udpate
     }
 
     fun deleteCurrentEntry() {
-        oldVal = entries.removeAt(currentPos)
+        oldVal = getCurrentEntry()
         oldPos = currentPos
+        ref.document(getCurrentEntry().id).delete()
         currentPos = 0
+
     }
 
     fun undoLastDelete() {
-        if (oldVal != null)
-            entries.add(oldVal!!)
+        if (oldVal != null) {
+            //entries.add(oldVal!!)
+            ref.add(oldVal!!)
+        }
     }
 
     fun updatePos(pos: Int) {
@@ -50,6 +103,7 @@ class EntriesViewModel : ViewModel() {
 
     fun toggleCurrentEntryState() {
         entries[currentPos].isChecked = !entries[currentPos].isChecked
+        ref.document(getCurrentEntry().id).set(getCurrentEntry())
     }
 
     fun size() = entries.size

@@ -90,13 +90,22 @@
                 android:text="LOC"
                 android:textColor="@color/deepTeal" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/entry_labels"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/entry_label_icon"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/entry_location_text"
-                android:orientation="horizontal" />
+                android:src="@drawable/ic_baseline_label_important_24" />
+
+            <TextView
+                android:id="@+id/entry_label_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/entry_label_icon"
+                android:text="LAB" />
+
 
         </RelativeLayout>
 

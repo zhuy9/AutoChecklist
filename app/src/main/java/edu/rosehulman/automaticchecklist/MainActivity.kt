@@ -94,10 +94,10 @@ class MainActivity : AppCompatActivity() {
                         val id = findNavController(
                             R.id.nav_host_fragment_activity_main
                         ).currentDestination!!.id
-                        if (id == R.id.navigation_welcome) {
+                        //if (id == R.id.navigation_welcome) {
                             findNavController(R.id.nav_host_fragment_activity_main)
                                 .navigate(R.id.navigation_inbox)
-                        }
+                        //}
                     } else {
                         navController.navigate(R.id.navigation_user_edit)
                     }

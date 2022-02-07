@@ -19,12 +19,6 @@ object Helpers {
     fun parseSingleFrequency(f: Frequency) = f.name.replace("_", " ")
 
 
-    fun arrayToString(arr: ArrayList<Label>): String {
-        var string = ""
-        arr.forEach { string += it.name + "," }
-        return string
-    }
-
     fun parseDate(dateTime: Long?): String {
         var currentTime = dateTime
         if (currentTime === null)

@@ -16,7 +16,8 @@ class UserViewModel : ViewModel() {
     fun hasCompletedSetup() = user?.hasCompletedSetup ?: false
 
     fun update(newName: String, newAge: Int, newHasCompletedSetup: Boolean) {
-        ref = Firebase.firestore.collection("users").document(Firebase.auth.uid!!) // add this line
+        ref = Firebase.firestore.collection(User.COLLECTION_PATH)
+            .document(Firebase.auth.uid!!) // add this line
         if (user != null) {
             with(user!!) {
                 name = newName
@@ -30,9 +31,10 @@ class UserViewModel : ViewModel() {
     fun getOrMakeUser(observer: () -> Unit) {
         Log.d(
             Helpers.TAG,
-            "GetOrMakeUser: uid: ${Firebase.auth.uid} currUID: ${Firebase.auth.currentUser!!.uid!!}"
+            "GetOrMakeUser: uid: ${Firebase.auth.uid}}"
         )
-        ref = Firebase.firestore.collection("users").document(Firebase.auth.uid!!) // add this line
+        ref = Firebase.firestore.collection(User.COLLECTION_PATH)
+            .document(Firebase.auth.uid!!) // add this line
         if (user != null) {
             // get
             observer()
@@ -45,6 +47,10 @@ class UserViewModel : ViewModel() {
                 } else {
                     user = User(name = Firebase.auth.currentUser!!.displayName!!)
                     ref.set(user!!)
+                    val sampleEntry = Entry("Welcome!!!")
+                    Firebase.firestore.collection(User.COLLECTION_PATH)
+                        .document(Firebase.auth.uid!!)
+                        .collection(Entry.COLLECTION_PATH).add(sampleEntry)
                 }
                 observer()
             }

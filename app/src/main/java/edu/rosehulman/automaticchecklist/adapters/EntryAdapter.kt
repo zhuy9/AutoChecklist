@@ -1,6 +1,7 @@
 package edu.rosehulman.automaticchecklist.adapters
 
 import android.graphics.Paint
+import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,15 @@ class EntryAdapter(private val fragment: InboxFragment) :
     RecyclerView.Adapter<EntryAdapter.EntryViewHolder>() {
     val model = ViewModelProvider(fragment.requireActivity()).get(EntriesViewModel::class.java)
 
+    fun removeListener(fragmentName: String) {
+        model.removeListener(fragmentName)
+    }
+
+    fun addListener(fragmentName: String) {
+        model.addListener(fragmentName) {
+            notifyDataSetChanged()
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.row_entry, parent, false)
@@ -39,8 +49,8 @@ class EntryAdapter(private val fragment: InboxFragment) :
 
     override fun getItemCount() = model.size()
 
-    fun addEntry(entry: Entry?, updatePos: Boolean = false) {
-        model.addEntry(entry, updatePos)
+    fun addEntry(entry: Entry?) {
+        model.addEntry(entry)
         notifyDataSetChanged()
     }
 
@@ -55,16 +65,10 @@ class EntryAdapter(private val fragment: InboxFragment) :
         private val timeTextView: TextView = itemView.findViewById(R.id.entry_time_text)
         private val locationIconView: ImageView = itemView.findViewById(R.id.entry_location_icon)
         private val locationTextView: TextView = itemView.findViewById(R.id.entry_location_text)
-        val recyclerView: RecyclerView = itemView.findViewById(R.id.entry_labels)
-        val labelAdapter: LabelAdapter = LabelAdapter(fragment)
+        private val labelIconView: ImageView = itemView.findViewById(R.id.entry_label_icon)
+        private val labelTextView: TextView = itemView.findViewById(R.id.entry_label_text)
 
         init {
-
-            recyclerView.adapter = labelAdapter
-            recyclerView.layoutManager =
-                LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
-            recyclerView.setHasFixedSize(true)
-
             editImageButton.setOnClickListener {
                 model.updatePos(adapterPosition)
                 fragment.findNavController().navigate(R.id.navigation_update)
@@ -75,7 +79,7 @@ class EntryAdapter(private val fragment: InboxFragment) :
                 model.updatePos(adapterPosition)
                 model.deleteCurrentEntry()
                 notifyDataSetChanged()
-                Snackbar.make(itemView, "This entry has been removed", Snackbar.LENGTH_INDEFINITE)
+                Snackbar.make(itemView, "This entry has been removed", Snackbar.LENGTH_LONG)
                     .setAction("Undo") {
                         model.undoLastDelete()
                         notifyDataSetChanged()
@@ -100,6 +104,14 @@ class EntryAdapter(private val fragment: InboxFragment) :
 
         fun bind(entry: Entry) {
             Log.d(Helpers.TAG, "in bind of EntryAdpt $entry")
+            if (entry.tags.size == 0) {
+                labelIconView.visibility = GONE
+                labelTextView.visibility = GONE
+            } else {
+                labelIconView.visibility = VISIBLE
+                labelTextView.visibility = VISIBLE
+                labelTextView.text = entry.tags.joinToString(",")
+            }
             if (entry.recurring !== Frequency.NONE.toString()) {
                 timeIconView.visibility = VISIBLE
                 timeTextView.visibility = VISIBLE
