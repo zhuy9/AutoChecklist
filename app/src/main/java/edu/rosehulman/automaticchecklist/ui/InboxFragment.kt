@@ -43,8 +43,8 @@ class InboxFragment : Fragment() {
 
         binding.fab.setOnClickListener {
             Log.d(Helpers.TAG, "FAB clicked!")
-            //adapter.model.addNew()
-            adapter.addEntry(null)
+            adapter.model.addNew()
+            //adapter.addEntry(null)
             findNavController().navigate(R.id.navigation_create)
 
         }

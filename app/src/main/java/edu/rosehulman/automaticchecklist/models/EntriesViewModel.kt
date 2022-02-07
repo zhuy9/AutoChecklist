@@ -21,12 +21,13 @@ class EntriesViewModel : ViewModel() {
     private var addNew = false
 
     fun addNew() {
-        //addNew = true
+        addNew = true
     }
 
     fun getEntryAt(pos: Int): Entry {
         Log.d(Helpers.TAG, "getEntryAt: $pos, curPos: $currentPos, length = ${entries.size}")
-        if (entries.size == 0 || pos >= entries.size || pos < 0) {
+        if (addNew || entries.size == 0 || pos >= entries.size || pos < 0) {
+            addNew = false
             return Entry()
         }
         return entries[pos]
