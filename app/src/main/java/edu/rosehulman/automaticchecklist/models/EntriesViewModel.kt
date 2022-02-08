@@ -67,7 +67,7 @@ class EntriesViewModel : ViewModel() {
             entries.add(e)
             Log.d(
                 Helpers.TAG,
-                "currentPOS($currentPos) sz(${entries.size}): ${entries.joinToString("::")}"
+                "currentPos($currentPos) entrySize(${entries.size}): ${entries.joinToString(" : ")}"
             )
             currentPos = entries.size - 1
 
@@ -78,8 +78,8 @@ class EntriesViewModel : ViewModel() {
 
     fun updateCurrentEntry(entry: Entry?) {
         if (onCreate) onCreate = false
-        Log.d(Helpers.TAG, "---------------------ERROR LOCATION: ${entry!!.id}")
-        if (entry.id.isNotBlank())
+        // Log.d(Helpers.TAG, "---------------------ERROR LOCATION: ${entry!!.id}")
+        if (entry!!.id.isNotBlank())
             ref.document(entry.id).set(entry)
         else
             addEntry(entry)

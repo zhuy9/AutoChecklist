@@ -8,7 +8,7 @@ import android.view.View.*
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.LinearLayout
+import android.widget.Toast
 import edu.rosehulman.automaticchecklist.R
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -16,52 +16,52 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
 import edu.rosehulman.automaticchecklist.Frequency
 import edu.rosehulman.automaticchecklist.Helpers
 import edu.rosehulman.automaticchecklist.adapters.LabelSelectAdapter
 import edu.rosehulman.automaticchecklist.databinding.FragmentEntryEditBinding
 import edu.rosehulman.automaticchecklist.models.EntriesViewModel
 import edu.rosehulman.automaticchecklist.models.Entry
-import java.time.LocalDate
+import edu.rosehulman.automaticchecklist.models.UserViewModel
 
 class EntryEditFragment : Fragment() {
 
-    lateinit var model: EntriesViewModel
+    lateinit var entriesModel: EntriesViewModel
+    lateinit var userModel: UserViewModel
     lateinit var binding: FragmentEntryEditBinding
-
+    lateinit var currentEntry: Entry
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        model = ViewModelProvider(requireActivity()).get(EntriesViewModel::class.java)
+        entriesModel = ViewModelProvider(requireActivity()).get(EntriesViewModel::class.java)
+        userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         binding = FragmentEntryEditBinding.inflate(inflater, container, false)
-
+        currentEntry = entriesModel.getCurrentEntry()
         setups()
-        updateView()
-
         return binding.root
     }
 
-    fun setups() {
-        // prefill the form
-        val currentEntry = model.getCurrentEntry()
+    private fun setups() {
+        /* initialize the form by prefilling data */
         if (currentEntry.content.isNotBlank()) {
+            binding.entryEditWarning1.visibility = INVISIBLE
             binding.entryEditText.setText(currentEntry.content)
+        } else {
+            binding.entryEditWarning1.visibility = INVISIBLE /* hide warning for content */
         }
         if (currentEntry.location.isNotBlank()) {
             binding.entryEditLocation.setText(currentEntry.location)
         }
-        // set frequency dropdown
+
+        /* initialize frequency dropdown */
         if (currentEntry.recurring != Frequency.NONE.toString()) {
             binding.entryEditFrequency.visibility = VISIBLE
             binding.entryEditFrequencyText.selectItem(
                 currentEntry.recurring, // string
-                enumValues<Frequency>().indexOf(
-                    Frequency.valueOf(
-                        currentEntry.recurring.replace(" ", "_")
-                    )
-                ) // index
+                Helpers.indexOfFrequency(currentEntry.recurring) // index
             )
             binding.entryEditCheckbox.setImageResource(Entry.checkboxCheckedIconSource)
             binding.entryEditChooseDate.isEnabled = false
@@ -73,13 +73,26 @@ class EntryEditFragment : Fragment() {
             binding.entryEditFrequency.visibility = GONE
         }
 
-        // hide warning for content
-        binding.entryEditWarning1.visibility = INVISIBLE
+        /* initialize freq dropdown */
+        binding.entryEditFrequencyText.setAdapter(
+            ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                Helpers.parseFrequencyToArray(filterOutNone = true)
+            )
+        )
 
-        // toggle freq dropdown & date selection
+        /* initialize date text view */
+        if (currentEntry.dueDate != null) {
+            binding.entryEditChooseDate.setText(Helpers.parseDateFromMs(currentEntry.dueDate!!.toLong()))
+        } else {
+            binding.entryEditChooseDate.hint =
+                Helpers.parseDateFromMs(MaterialDatePicker.todayInUtcMilliseconds())
+        }
+
+        /* set listener: toggle freq dropdown & date selection */
         binding.entryEditCheckbox.setOnClickListener {
             if (binding.entryEditFrequency.isVisible) {
-                // TODO set source to constant
                 binding.entryEditCheckbox.setImageResource(Entry.checkboxNotCheckedIconSource)
                 binding.entryEditFrequency.visibility = GONE
                 binding.entryEditChooseDate.isEnabled = true
@@ -91,59 +104,53 @@ class EntryEditFragment : Fragment() {
                 binding.entryEditCalendarIcon.isEnabled = false
             }
         }
-        // set freq dropdown
-        // TODO SET to user options
-        binding.entryEditFrequencyText.setAdapter(
-            ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                Helpers.parseFrequencyToArray() // TODO
-            )
-        )
-        // set current Selection to N/A
-        binding.entryEditChooseDate.setText("N/A")
 
-        // save button, return to inbox if successful
+        /* set listener: jump to calendar pop up window */
+        /* reference: https://material.io/components/date-pickers/android#using-date-pickers */
+        val picker = MaterialDatePicker.Builder.datePicker()
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .setTitleText(R.string.select_due_date).build()
+        picker.addOnPositiveButtonClickListener {
+            binding.entryEditChooseDate.setText(Helpers.parseDateFromMs(it))
+            currentEntry.dueDate = it.toString() // update current entry on save
+        }
+
+        /* set listener: save button, return to inbox if successful */
         binding.entryEditSaveButton.setOnClickListener {
             val content = binding.entryEditText.text.toString()
-            // TODO more to be saved
             if (content.isNullOrBlank()) {
                 binding.entryEditWarning1.visibility = VISIBLE
                 return@setOnClickListener
             }
-
             binding.entryEditWarning1.visibility = INVISIBLE
             currentEntry.content = content
-            // IF frequency is NONE
-            // val checkedStat: Boolean = !binding.entryEditChooseDate.isEnabled
-            val dueLocalDate: LocalDate? = null
+
             val locString = binding.entryEditLocation.text.toString()
             if (locString.isNotBlank())
                 currentEntry.location = locString
-            val recurString = binding.entryEditFrequencyText.text.toString()
-            if (recurString.isNotBlank())
-                currentEntry.recurring = recurString
+            if (binding.entryEditFrequency.isVisible) {
+                currentEntry.dueDate = null
+                val recurString = binding.entryEditFrequencyText.text.toString()
+                if (recurString.isNotBlank())
+                    currentEntry.recurring = recurString
+            } else {
+                currentEntry.recurring = Frequency.NONE.toString()
+            }
             Log.d(
                 Helpers.TAG,
-                "\n\nContent: $content\ndueDate: $dueLocalDate\nloc: ${currentEntry.location}\nfreq: ${currentEntry.recurring}\ntags: ${currentEntry.tags}"
+                "->>\t\nContent: ${currentEntry.content}\n" +
+                        "dueDate: ${currentEntry.dueDate}\n" +
+                        "loc: ${currentEntry.location}\n" +
+                        "freq: ${currentEntry.recurring}\n" +
+                        "tags: ${currentEntry.tags}"
             )
-            model.updateCurrentEntry(currentEntry)
+            entriesModel.updateCurrentEntry(currentEntry)
             findNavController().navigate(R.id.navigation_inbox)
         }
 
-        // jump to calendar pop up window
+
         binding.entryEditCalendarIcon.setOnClickListener {
-            val picker =
-                MaterialDatePicker.Builder.datePicker()
-                    .setSelection(System.currentTimeMillis())
-                    .setTitleText("Select Due Date").build()
-
-            picker.addOnPositiveButtonClickListener {
-                binding.entryEditChooseDate.setText(Helpers.parseDate(it))
-            }
-
-            // TODO make TAG constant
-            picker.show(parentFragmentManager, "TAG")
+            picker.show(parentFragmentManager, Helpers.tag)
         }
 
         // select labels
@@ -152,18 +159,12 @@ class EntryEditFragment : Fragment() {
         binding.entryEditLabelRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
+    /* reference: https://stackoverflow.com/questions/44963164/autocompletetextview-item-selection-programmatically */
     private fun AutoCompleteTextView.selectItem(text: String, position: Int = 0) {
         this.setText(text)
         //this.showDropDown() // expand dropdown
         this.setSelection(position)
         this.listSelection = position
         this.performCompletion()
-    }
-
-    fun updateView() {
-        // TODO for edit details
-        // binding.entryEditLabels.text = Helpers.arrayToString(model.getCurrentEntry().tags)
-
-
     }
 }

@@ -58,6 +58,6 @@ class InboxFragment : Fragment() {
     }
 
     companion object {
-        const val fragmentName = "InboxFragment"
+        const val fragmentName = "InboxFragment" // keep this way
     }
 }

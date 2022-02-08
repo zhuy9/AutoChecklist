@@ -14,8 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/row_checkbox_box"
-        android:text="SELECTION" />
+        android:layout_toEndOf="@+id/row_checkbox_box"
+        android:text="@string/selection" />
 
     <ImageView
         android:id="@+id/row_checkbox_delete"

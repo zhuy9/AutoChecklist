@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@+id/entry_edit_warning_1"
-            android:hint="Content"
+            android:hint="@string/content"
             android:importantForAutofill="no"
             android:inputType="text"
             android:textSize="20sp" />
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/entry_edit_checkbox"
-            android:text=" recurring"
+            android:text="@string/recurring"
             android:textSize="20sp" />
 
         <TextView
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/entry_edit_choose_date"
-            android:text="Due Date: "
+            android:text="@string/due_date"
             android:textSize="20sp" />
 
 
@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@id/entry_edit_calendar_icon"
-            android:hint="01/01/2022"
+            android:hint="@string/_01_01_2022"
             android:importantForAutofill="no"
             android:textSize="20sp" />
 
@@ -90,7 +90,7 @@
             android:id="@+id/entry_edit_frequency_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Choose Recurring Frequency"
+            android:hint="@string/choose_recurring_frequency"
             android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -112,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/entry_edit_location_icon"
-            android:hint="Location"
+            android:hint="@string/location"
             android:textSize="20sp" />
     </RelativeLayout>
 
@@ -121,7 +121,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20sp"
-        android:hint="Choose Label(s)"
+        android:hint="@string/choose_label_s"
         android:textSize="20sp" />
 
     <RelativeLayout
@@ -143,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_toStartOf="@id/entry_edit_label_confirm_button"
-                android:hint="Create a new label"
+                android:hint="@string/create_a_new_label"
                 android:importantForAutofill="no"
                 android:inputType="text" />
 
@@ -152,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="CREATE" />
+                android:text="@string/create" />
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -172,7 +172,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="SAVE" />
+            android:text="@string/save" />
 
     </RelativeLayout>
 </LinearLayout>

@@ -121,7 +121,7 @@ class EntryAdapter(private val fragment: InboxFragment) :
                 timeIconView.visibility = VISIBLE
                 timeTextView.visibility = VISIBLE
                 timeIconView.setImageResource(Label.LABEL_DUE)
-                timeTextView.text = "DATE"
+                timeTextView.text = Helpers.parseDateFromMs(entry.dueDate!!.toLong())
             } else {
                 timeIconView.visibility = GONE
                 timeTextView.visibility = GONE

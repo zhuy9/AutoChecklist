@@ -42,9 +42,9 @@ class UserFragment : Fragment() {
         userModel.getOrMakeUser {
             with(userModel.user!!) {
                 Log.d(Helpers.TAG, "$this")
-                binding.userName.setText(name)
-                binding.userAge.setText(age.toString())
-                binding.userLabels.setText(labels.joinToString(separator = ","))
+                binding.userName.text = name
+                binding.userAge.text = age.toString()
+                binding.userLabels.text = labels.joinToString(separator = ", ")
             }
         }
     }

@@ -21,4 +21,19 @@
     <string name="your_age">Your age</string>
     <string name="app_is_loading">App is loading...</string>
     <string name="welcome">Welcome</string>
+    <string name="content">Content</string>
+    <string name="recurring">Recurring</string>
+    <string name="due_date">Due Date:</string>
+    <string name="_01_01_2022">01/01/2022</string>
+    <string name="choose_recurring_frequency">Choose Recurring Frequency</string>
+    <string name="location">Location</string>
+    <string name="choose_label_s">Choose Label(s)</string>
+    <string name="create_a_new_label">Create a new label</string>
+    <string name="save">SAVE</string>
+    <string name="select_due_date">Select Due Date</string>
+    <string name="this_is_the_content">This is the content</string>
+    <string name="d_r">D/R</string>
+    <string name="loc">LOC</string>
+    <string name="lab">LAB</string>
+    <string name="selection">SELECTION</string>
 </resources>
