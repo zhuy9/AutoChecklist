@@ -42,6 +42,11 @@ class EntryEditFragment : Fragment() {
         setupView()
         setupListeners()
         return binding.root
+        //TODO delete all checked items
+        //TODO set upperbound on number of labels
+        //TODO gmail support?
+        //TODO change ImageView to Checkbox
+        //TODO add constraints to user input
     }
 
     private fun setupListeners() {
@@ -56,13 +61,13 @@ class EntryEditFragment : Fragment() {
             if (binding.entryEditFrequency.isVisible) {
                 binding.entryEditCheckbox.setImageResource(Entry.checkboxNotCheckedIconSource)
                 binding.entryEditFrequency.visibility = GONE
-                binding.entryEditChooseDate.isEnabled = true
-                binding.entryEditCalendarIcon.isEnabled = true
+                //binding.entryEditChooseDate.isEnabled = true
+                //binding.entryEditCalendarIcon.isEnabled = true
             } else {
                 binding.entryEditCheckbox.setImageResource(Entry.checkboxCheckedIconSource)
                 binding.entryEditFrequency.visibility = VISIBLE
-                binding.entryEditChooseDate.isEnabled = false
-                binding.entryEditCalendarIcon.isEnabled = false
+                //binding.entryEditChooseDate.isEnabled = false
+                //binding.entryEditCalendarIcon.isEnabled = false
             }
         }
 
@@ -93,7 +98,7 @@ class EntryEditFragment : Fragment() {
             if (locString.isNotBlank())
                 currentEntry.location = locString
             if (binding.entryEditFrequency.isVisible) {
-                currentEntry.dueDate = null
+                //currentEntry.dueDate = null
                 val recurString = binding.entryEditFrequencyText.text.toString()
                 if (recurString.isNotBlank())
                     currentEntry.recurring = recurString
@@ -134,11 +139,11 @@ class EntryEditFragment : Fragment() {
                 Helpers.indexOfFrequency(currentEntry.recurring) // index
             )
             binding.entryEditCheckbox.setImageResource(Entry.checkboxCheckedIconSource)
-            binding.entryEditChooseDate.isEnabled = false
-            binding.entryEditCalendarIcon.isEnabled = false
+            //binding.entryEditChooseDate.isEnabled = false
+            //binding.entryEditCalendarIcon.isEnabled = false
         } else {
-            binding.entryEditChooseDate.isEnabled = true
-            binding.entryEditCalendarIcon.isEnabled = true
+            //binding.entryEditChooseDate.isEnabled = true
+            //binding.entryEditCalendarIcon.isEnabled = true
             binding.entryEditCheckbox.setImageResource(Entry.checkboxNotCheckedIconSource)
             binding.entryEditFrequency.visibility = GONE
         }

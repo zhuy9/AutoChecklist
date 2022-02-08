@@ -63,6 +63,8 @@ class EntryAdapter(private val fragment: InboxFragment) :
         private val shareImageButton: ImageButton = itemView.findViewById(R.id.entry_share)
         private val timeIconView: ImageView = itemView.findViewById(R.id.entry_time_icon)
         private val timeTextView: TextView = itemView.findViewById(R.id.entry_time_text)
+        private val recurringIconView: ImageView = itemView.findViewById(R.id.entry_recurring_icon)
+        private val recurringTextView: TextView = itemView.findViewById(R.id.entry_recurring_text)
         private val locationIconView: ImageView = itemView.findViewById(R.id.entry_location_icon)
         private val locationTextView: TextView = itemView.findViewById(R.id.entry_location_text)
         private val labelIconView: ImageView = itemView.findViewById(R.id.entry_label_icon)
@@ -112,15 +114,20 @@ class EntryAdapter(private val fragment: InboxFragment) :
                 labelTextView.visibility = VISIBLE
                 labelTextView.text = entry.tags.joinToString(",")
             }
+
             if (entry.recurring != Frequency.NONE.toString()) {
+                recurringIconView.visibility = VISIBLE
+                recurringTextView.visibility = VISIBLE
+                //timeIconView.setImageResource(Label.LABEL_RECURRING)
+                recurringTextView.text = entry.recurring
+            } else {
+                recurringIconView.visibility = GONE
+                recurringTextView.visibility = GONE
+            }
+
+            if (entry.dueDate != null) {
                 timeIconView.visibility = VISIBLE
                 timeTextView.visibility = VISIBLE
-                timeIconView.setImageResource(Label.LABEL_RECURRING)
-                timeTextView.text = entry.recurring.toString()
-            } else if (entry.dueDate !== null) {
-                timeIconView.visibility = VISIBLE
-                timeTextView.visibility = VISIBLE
-                timeIconView.setImageResource(Label.LABEL_DUE)
                 timeTextView.text = Helpers.parseDateFromMs(entry.dueDate!!.toLong())
             } else {
                 timeIconView.visibility = GONE

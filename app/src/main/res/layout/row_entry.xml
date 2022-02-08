@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_baseline_repeat_24"
+                android:src="@drawable/ic_baseline_calendar_month_24"
                 app:tint="@color/deepPurple" />
 
             <TextView
@@ -73,11 +73,29 @@
                 android:textColor="@color/deepPurple" />
 
             <ImageView
-                android:id="@+id/entry_location_icon"
+                android:id="@+id/entry_recurring_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/entry_time_text"
+                android:src="@drawable/ic_baseline_repeat_24"
+                app:tint="@color/deepBlue" />
+
+            <TextView
+                android:id="@+id/entry_recurring_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/entry_recurring_icon"
+                android:text="@string/d_r"
+                android:textColor="@color/deepBlue" />
+
+            <ImageView
+                android:id="@+id/entry_location_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/entry_recurring_text"
                 android:src="@drawable/ic_baseline_location_on_24"
                 app:tint="@color/deepTeal" />
 
