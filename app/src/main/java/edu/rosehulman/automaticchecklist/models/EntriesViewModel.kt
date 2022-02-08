@@ -7,6 +7,9 @@ import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import edu.rosehulman.automaticchecklist.Helpers
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 import kotlin.random.Random
 
 class EntriesViewModel : ViewModel() {
@@ -22,6 +25,13 @@ class EntriesViewModel : ViewModel() {
 
     fun addNew() {
         onCreate = true
+    }
+
+    fun getEntriesByTag(tag: String): List<Entry> {
+        if (tag == null || tag == "NONE")
+            return entries
+
+        return entries.filter { it.tags.contains(tag.lowercase(Locale.getDefault())) }
     }
 
     fun getEntryAt(pos: Int): Entry {

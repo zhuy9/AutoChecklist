@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/navigation_category"
-        android:name="edu.rosehulman.automaticchecklist.ui.dashboard.CategoryFragment"
+        android:name="edu.rosehulman.automaticchecklist.ui.CategoryFragment"
         android:label="@string/category"
         tools:layout="@layout/fragment_category" />
 
