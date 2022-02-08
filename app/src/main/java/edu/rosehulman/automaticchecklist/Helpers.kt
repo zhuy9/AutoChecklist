@@ -21,14 +21,14 @@ object Helpers {
         val output = ArrayList<String>()
         enumValues<Frequency>().forEach {
             if (!filterOutNone || it.name != Frequency.NONE.toString())
-                output.add(it.name.replace("_", " "))
+                output.add(it.name)
         }
         return output.toTypedArray()
     }
 
 
     fun indexOfFrequency(f: String) = enumValues<Frequency>().indexOf(
-        Frequency.valueOf(f.replace(" ", "_"))
+        Frequency.valueOf(f)
     ) // index
 
     fun parseSingleFrequency(f: Frequency) = f.name.replace("_", " ")
