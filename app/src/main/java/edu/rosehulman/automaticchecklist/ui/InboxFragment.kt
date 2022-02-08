@@ -1,17 +1,17 @@
 package edu.rosehulman.automaticchecklist.ui
 
+import android.Manifest
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import edu.rosehulman.automaticchecklist.models.Entry
 import edu.rosehulman.automaticchecklist.adapters.EntryAdapter
-import edu.rosehulman.automaticchecklist.Frequency
 import edu.rosehulman.automaticchecklist.Helpers
 import edu.rosehulman.automaticchecklist.R
 import edu.rosehulman.automaticchecklist.databinding.FragmentInboxBinding
@@ -28,6 +28,7 @@ class InboxFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        requestPermissions(null)
         binding = FragmentInboxBinding.inflate(inflater, container, false)
         adapter = EntryAdapter(this)
         binding.recyclerView.adapter = adapter
@@ -50,6 +51,24 @@ class InboxFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    fun requestPermissions(observer: (() -> Unit)?) {
+        var permissions: Array<String> =
+            arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR)
+        val register =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+                if(it[Manifest.permission.READ_CALENDAR]!! && it[Manifest.permission.WRITE_CALENDAR]!! ){
+                    Log.d(Helpers.TAG, "GRANTED-------------------")
+
+                } else {
+
+                }
+            }
+        register.launch(permissions)
+        if (observer != null) {
+            observer()
+        }
     }
 
     override fun onDestroyView() {

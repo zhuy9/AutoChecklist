@@ -1,7 +1,10 @@
 package edu.rosehulman.automaticchecklist.adapters
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Paint
-import android.opengl.Visibility
+import android.provider.CalendarContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +14,10 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import edu.rosehulman.automaticchecklist.Frequency
@@ -23,6 +27,7 @@ import edu.rosehulman.automaticchecklist.models.EntriesViewModel
 import edu.rosehulman.automaticchecklist.models.Entry
 import edu.rosehulman.automaticchecklist.models.Label
 import edu.rosehulman.automaticchecklist.ui.InboxFragment
+import java.util.*
 
 class EntryAdapter(private val fragment: InboxFragment) :
     RecyclerView.Adapter<EntryAdapter.EntryViewHolder>() {
@@ -76,6 +81,19 @@ class EntryAdapter(private val fragment: InboxFragment) :
                 fragment.findNavController().navigate(R.id.navigation_update)
                 // TODO add animations
             }
+            shareImageButton.setOnClickListener {
+                model.updatePos(adapterPosition)
+                val curEntry = model.getCurrentEntry()
+                if (curEntry.dueDate == null) {
+                    Snackbar.make(
+                        itemView,
+                        "Missing due date for this event",
+                        Snackbar.LENGTH_SHORT
+                    ).setAction("SURE", null).show()
+                    return@setOnClickListener
+                }
+                setupCalendarEvent(model.getCurrentEntry())
+            }
 
             deleteImageButton.setOnClickListener {
                 model.updatePos(adapterPosition)
@@ -85,7 +103,8 @@ class EntryAdapter(private val fragment: InboxFragment) :
                     .setAction(R.string.undo) {
                         model.undoLastDelete()
                         notifyDataSetChanged()
-                    }.setAnchorView(itemView.findViewById(R.id.nav_view))
+                    }
+                    //.setAnchorView(itemView.findViewById(R.id.nav_view))
                     .show()
 
             }
@@ -159,5 +178,37 @@ class EntryAdapter(private val fragment: InboxFragment) :
                 }
             }
         }
+        /* reference: https://itnext.io/android-calendar-intent-8536232ecb38 */
+        /* reference: RRULE: https://datatracker.ietf.org/doc/html/rfc5545#section-3.8.5.3 */
+        /* https://stackoverflow.com/questions/58586819/how-to-add-events-to-calendar-on-android-device-without-using-intent */
+        fun setupCalendarEvent(entry: Entry) {
+            val RECUR_CT = 2
+
+            val intent = Intent(Intent.ACTION_EDIT)
+            //intent.data = CalendarContract.CONTENT_URI
+            intent.type = "vnd.android.cursor.item/event"
+            intent.putExtra(CalendarContract.Events.TITLE, entry.content)
+            intent.putExtra(CalendarContract.Events.ALL_DAY, true)
+            intent.putExtra(CalendarContract.Events.DESCRIPTION, entry.tags.toString())
+            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, entry.location)
+            intent.putExtra(CalendarContract.Events.DTSTART, entry.dueDate!!.toLong())
+            if(entry.recurring != "NONE" && entry.recurring.isNotBlank())
+                intent.putExtra(CalendarContract.Events.RRULE, "FREQ=${entry.recurring};COUNT=${RECUR_CT}")
+            intent.putExtra(CalendarContract.Events.DTEND, entry.dueDate!!.toLong() + 1)
+
+            if (intent.resolveActivity(fragment.requireContext().packageManager) != null) {
+                fragment.requireContext().startActivity(intent)
+            } else {
+                Snackbar.make(
+                    itemView,
+                    "There is no App supporting this intent",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                Log.d(Helpers.TAG, "There is no App supporting this intent")
+            }
+            fragment.requireContext().startActivity(intent)
+        }
+        //https://stackoverflow.com/questions/38110754/android-permissions-read-calendar-write-calendar
+        //https://stackoverflow.com/questions/66551781/android-onrequestpermissionsresult-is-deprecated-are-there-any-alternatives/66552678#66552678
     }
 }
