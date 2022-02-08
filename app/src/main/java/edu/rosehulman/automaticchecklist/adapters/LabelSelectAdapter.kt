@@ -4,9 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import edu.rosehulman.automaticchecklist.R
 import edu.rosehulman.automaticchecklist.models.EntriesViewModel
 import edu.rosehulman.automaticchecklist.models.Entry
@@ -36,10 +38,12 @@ class LabelSelectAdapter(
 
     override fun getItemCount() = userModel.user!!.labels.size
 
+    fun update() = notifyDataSetChanged()
 
     inner class LabelSelectViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var labelText: TextView = itemView.findViewById(R.id.row_checkbox_text)
         var cb: CheckBox = itemView.findViewById(R.id.row_checkbox_box)
+        var deleteButton: ImageView = itemView.findViewById(R.id.row_checkbox_delete)
 
         init {
             cb.setOnClickListener {
@@ -53,6 +57,23 @@ class LabelSelectAdapter(
                     }
                 }
             }
+
+            deleteButton.setOnClickListener {
+                userModel.deleteLabel(labelText.text.toString())
+                notifyDataSetChanged()
+                Snackbar.make(
+                    itemView,
+                    "Label {${userModel.removedLabelsToString()}} has been removed",
+                    Snackbar.LENGTH_LONG
+                )
+                    .setAction(R.string.undo) {
+                        userModel.undoDelete()
+                        notifyDataSetChanged()
+                    }
+                    //.setAnchorView(itemView.findViewById(R.id.nav_view))
+                    .show()
+            }
+
         }
 
         fun bind(label: String, tags: ArrayList<String>) {

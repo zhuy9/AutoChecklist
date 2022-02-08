@@ -10,5 +10,6 @@ data class User(
 ) {
     companion object {
         const val COLLECTION_PATH = "users"
+        const val LABELS_COLLECTION_PATH = "labels"
     }
 }

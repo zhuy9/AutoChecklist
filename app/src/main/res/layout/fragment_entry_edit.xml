@@ -134,8 +134,7 @@
         <RelativeLayout
             android:id="@+id/entry_edit_label_create"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/entry_edit_label_new_input"

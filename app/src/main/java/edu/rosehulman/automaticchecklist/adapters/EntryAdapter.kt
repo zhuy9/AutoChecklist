@@ -80,7 +80,7 @@ class EntryAdapter(private val fragment: InboxFragment) :
                 model.deleteCurrentEntry()
                 notifyDataSetChanged()
                 Snackbar.make(itemView, "This entry has been removed", Snackbar.LENGTH_LONG)
-                    .setAction("Undo") {
+                    .setAction(R.string.undo) {
                         model.undoLastDelete()
                         notifyDataSetChanged()
                     }.setAnchorView(itemView.findViewById(R.id.nav_view))

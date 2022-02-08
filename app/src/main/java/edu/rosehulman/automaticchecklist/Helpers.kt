@@ -1,5 +1,6 @@
 package edu.rosehulman.automaticchecklist
 
+import android.widget.AutoCompleteTextView
 import edu.rosehulman.automaticchecklist.models.Label
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -45,6 +46,14 @@ object Helpers {
             date.get(Calendar.DAY_OF_MONTH),
             date.get(Calendar.YEAR)
         )
+    }
+    /* reference: https://stackoverflow.com/questions/44963164/autocompletetextview-item-selection-programmatically */
+    fun AutoCompleteTextView.selectItem(text: String, position: Int = 0) {
+        this.setText(text)
+        //this.showDropDown() // expand dropdown
+        this.setSelection(position)
+        this.listSelection = position
+        this.performCompletion()
     }
 
 }

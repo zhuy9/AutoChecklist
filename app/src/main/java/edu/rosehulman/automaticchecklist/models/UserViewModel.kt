@@ -7,13 +7,48 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import edu.rosehulman.automaticchecklist.Helpers
+import java.util.*
+import kotlin.collections.ArrayList
 
 class UserViewModel : ViewModel() {
     var ref = Firebase.firestore.collection(User.COLLECTION_PATH)
         .document(Firebase.auth.currentUser!!.uid!!)
     var user: User? = null
+    private var oldVal = ArrayList<String>()
 
     fun hasCompletedSetup() = user?.hasCompletedSetup ?: false
+
+    fun deleteLabel(lb: String) {
+        ref = Firebase.firestore.collection(User.COLLECTION_PATH)
+            .document(Firebase.auth.uid!!) // for safe
+        val labels = user!!.labels
+        if (labels.remove(lb)) {
+            oldVal.add(lb)
+            ref.update(User.LABELS_COLLECTION_PATH, labels)
+        }
+    }
+
+    fun resetUndoMemory() {
+        oldVal = ArrayList<String>()
+    }
+
+    fun removedLabelsToString() = oldVal.joinToString(",")
+
+    fun addLabel(lb: String) {
+        val lb = lb.lowercase(Locale.getDefault())
+        val labels = user!!.labels
+        if (lb.isBlank() || labels.contains(lb))
+            return
+        ref = Firebase.firestore.collection(User.COLLECTION_PATH)
+            .document(Firebase.auth.uid!!) // for safe
+        labels.add(lb)
+        ref.update(User.LABELS_COLLECTION_PATH, labels)
+    }
+
+    fun undoDelete() {
+        oldVal.forEach { addLabel(it) }
+        oldVal = ArrayList<String>()
+    }
 
     fun update(newName: String, newAge: Int, newHasCompletedSetup: Boolean) {
         ref = Firebase.firestore.collection(User.COLLECTION_PATH)
