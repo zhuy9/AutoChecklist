@@ -6,7 +6,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import edu.rosehulman.automaticchecklist.Helpers
+import edu.rosehulman.automaticchecklist.Constants
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -35,7 +35,7 @@ class EntriesViewModel : ViewModel() {
     }
 
     fun getEntryAt(pos: Int): Entry {
-        Log.d(Helpers.TAG, "getEntryAt: $pos, curPos: $currentPos, length = ${entries.size}")
+        Log.d(Constants.TAG, "getEntryAt: $pos, curPos: $currentPos, length = ${entries.size}")
         if (onCreate || entries.size == 0 || pos >= entries.size || pos < 0) {
             return Entry()
         }
@@ -56,7 +56,7 @@ class EntriesViewModel : ViewModel() {
         val subscription = ref.orderBy(Entry.CREATED_KEY, Query.Direction.ASCENDING)
             .addSnapshotListener { snapShot: QuerySnapshot?, error: FirebaseFirestoreException? ->
                 error?.let {
-                    Log.d(Helpers.TAG, "Error : $error")
+                    Log.d(Constants.TAG, "Error : $error")
                     return@addSnapshotListener
                 }
                 entries.clear()
@@ -76,7 +76,7 @@ class EntriesViewModel : ViewModel() {
             ref.add(e)
             entries.add(e)
             Log.d(
-                Helpers.TAG,
+                Constants.TAG,
                 "currentPos($currentPos) entrySize(${entries.size}): ${entries.joinToString(" : ")}"
             )
             currentPos = entries.size - 1

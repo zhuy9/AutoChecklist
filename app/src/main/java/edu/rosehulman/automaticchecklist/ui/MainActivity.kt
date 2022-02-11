@@ -1,4 +1,4 @@
-package edu.rosehulman.automaticchecklist
+package edu.rosehulman.automaticchecklist.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +15,8 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import edu.rosehulman.automaticchecklist.Constants
+import edu.rosehulman.automaticchecklist.R
 import edu.rosehulman.automaticchecklist.databinding.ActivityMainBinding
 import edu.rosehulman.automaticchecklist.models.UserViewModel
 
@@ -84,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 with(user) {
                     Log.d(
-                        Helpers.TAG,
+                        Constants.TAG,
                         "User: $uid, $email, $displayName, $photoUrl, ${Firebase.auth.uid}"
                     )
                 }

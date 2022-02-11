@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import edu.rosehulman.automaticchecklist.Helpers
+import edu.rosehulman.automaticchecklist.Constants
 import edu.rosehulman.automaticchecklist.R
 import edu.rosehulman.automaticchecklist.databinding.FragmentUserBinding
 import edu.rosehulman.automaticchecklist.models.UserViewModel
@@ -41,7 +41,7 @@ class UserFragment : Fragment() {
     private fun updateView(){
         userModel.getOrMakeUser {
             with(userModel.user!!) {
-                Log.d(Helpers.TAG, "$this")
+                Log.d(Constants.TAG, "$this")
                 binding.userName.text = name
                 binding.userAge.text = age.toString()
                 binding.userLabels.text = labels.joinToString(separator = ", ")

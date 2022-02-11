@@ -20,8 +20,8 @@ class LabelSelectAdapter(
     var current: Entry?
 ) :
     RecyclerView.Adapter<LabelSelectAdapter.LabelSelectViewHolder>() {
-    val entryModel = ViewModelProvider(fragment.requireActivity()).get(EntriesViewModel::class.java)
-    val userModel = ViewModelProvider(fragment.requireActivity()).get(UserViewModel::class.java)
+    private val entryModel = ViewModelProvider(fragment.requireActivity()).get(EntriesViewModel::class.java)
+    private val userModel = ViewModelProvider(fragment.requireActivity()).get(UserViewModel::class.java)
     val currentEntry = if (!entryModel.onCreate) entryModel.getCurrentEntry() else current
     override fun onCreateViewHolder(
         parent: ViewGroup,

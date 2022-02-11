@@ -1,15 +1,10 @@
 package edu.rosehulman.automaticchecklist
 
 import android.widget.AutoCompleteTextView
-import edu.rosehulman.automaticchecklist.models.Label
-import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import edu.rosehulman.automaticchecklist.models.Frequency
 import java.util.*
 
-object Helpers {
+object Constants {
     const val TAG = "ACL"
     const val tag = "tag"
     //var defaultLabelArray = arrayListOf<Label>(Label("School"), Label("Work"), Label("Leisure"))

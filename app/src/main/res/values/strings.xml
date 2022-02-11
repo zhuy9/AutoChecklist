@@ -37,4 +37,6 @@
     <string name="lab">LAB</string>
     <string name="selection">SELECTION</string>
     <string name="undo">undo</string>
+    <string name="delete_checked_items">Delete Checked Items</string>
+    <string name="cancel">cancel</string>
 </resources>

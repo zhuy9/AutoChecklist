@@ -1,52 +1,27 @@
 package edu.rosehulman.automaticchecklist.adapters
 
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Paint
-import android.provider.CalendarContract
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.app.ActivityCompat.requestPermissions
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
-import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-import edu.rosehulman.automaticchecklist.Frequency
-import edu.rosehulman.automaticchecklist.Helpers
+import edu.rosehulman.automaticchecklist.models.Frequency
+import edu.rosehulman.automaticchecklist.Constants
 import edu.rosehulman.automaticchecklist.R
 import edu.rosehulman.automaticchecklist.models.EntriesViewModel
 import edu.rosehulman.automaticchecklist.models.Entry
 import edu.rosehulman.automaticchecklist.models.Label
 import edu.rosehulman.automaticchecklist.ui.CategoryFragment
-import edu.rosehulman.automaticchecklist.ui.InboxFragment
-import java.util.*
 
-class SimpleViewEntryAdapter(private val fragment: CategoryFragment, val label: String) :
+class SimpleViewEntryAdapter(fragment: CategoryFragment, label: String) :
     RecyclerView.Adapter<SimpleViewEntryAdapter.EntryViewHolder>() {
-    val model = ViewModelProvider(fragment.requireActivity()).get(EntriesViewModel::class.java)
-    val entries = model.getEntriesByTag(label)
-
-    fun removeListener(fragmentName: String) {
-        model.removeListener(fragmentName)
-    }
-
-    fun addListener(fragmentName: String) {
-        model.addListener(fragmentName) {
-            notifyDataSetChanged()
-        }
-    }
+    private val model = ViewModelProvider(fragment.requireActivity()).get(EntriesViewModel::class.java)
+    private val entries = model.getEntriesByTag(label)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.row_entry, parent, false)
@@ -58,7 +33,6 @@ class SimpleViewEntryAdapter(private val fragment: CategoryFragment, val label: 
     }
 
     override fun getItemCount() = entries.size
-
 
     inner class EntryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val contentTextView: TextView = itemView.findViewById(R.id.entry_content)
@@ -106,7 +80,7 @@ class SimpleViewEntryAdapter(private val fragment: CategoryFragment, val label: 
             if (entry.dueDate != null) {
                 timeIconView.visibility = VISIBLE
                 timeTextView.visibility = VISIBLE
-                timeTextView.text = Helpers.parseDateFromMs(entry.dueDate!!.toLong())
+                timeTextView.text = Constants.parseDateFromMs(entry.dueDate!!.toLong())
             } else {
                 timeIconView.visibility = GONE
                 timeTextView.visibility = GONE

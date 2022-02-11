@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.rosehulman.automaticchecklist.adapters.EntryAdapter
-import edu.rosehulman.automaticchecklist.Helpers
+import edu.rosehulman.automaticchecklist.Constants
 import edu.rosehulman.automaticchecklist.R
 import edu.rosehulman.automaticchecklist.databinding.FragmentInboxBinding
 
@@ -43,7 +43,7 @@ class InboxFragment : Fragment() {
         )
 
         binding.fab.setOnClickListener {
-            Log.d(Helpers.TAG, "FAB clicked!")
+            Log.d(Constants.TAG, "FAB clicked!")
             adapter.model.addNew()
             //adapter.addEntry(null)
             findNavController().navigate(R.id.navigation_create)
@@ -59,7 +59,7 @@ class InboxFragment : Fragment() {
         val register =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
                 if(it[Manifest.permission.READ_CALENDAR]!! && it[Manifest.permission.WRITE_CALENDAR]!! ){
-                    Log.d(Helpers.TAG, "GRANTED-------------------")
+                    Log.d(Constants.TAG, "GRANTED-------------------")
 
                 } else {
 

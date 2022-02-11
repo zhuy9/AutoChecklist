@@ -14,9 +14,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.datepicker.MaterialDatePicker
-import edu.rosehulman.automaticchecklist.Frequency
-import edu.rosehulman.automaticchecklist.Helpers
-import edu.rosehulman.automaticchecklist.Helpers.selectItem
+import edu.rosehulman.automaticchecklist.models.Frequency
+import edu.rosehulman.automaticchecklist.Constants
+import edu.rosehulman.automaticchecklist.Constants.selectItem
 import edu.rosehulman.automaticchecklist.adapters.LabelSelectAdapter
 import edu.rosehulman.automaticchecklist.databinding.FragmentEntryEditBinding
 import edu.rosehulman.automaticchecklist.models.EntriesViewModel
@@ -77,11 +77,11 @@ class EntryEditFragment : Fragment() {
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .setTitleText(R.string.select_due_date).build()
         picker.addOnPositiveButtonClickListener {
-            binding.entryEditChooseDate.setText(Helpers.parseDateFromMs(it))
+            binding.entryEditChooseDate.setText(Constants.parseDateFromMs(it))
             currentEntry.dueDate = it.toString() // update current entry on save
         }
         binding.entryEditCalendarIcon.setOnClickListener {
-            picker.show(parentFragmentManager, Helpers.tag)
+            picker.show(parentFragmentManager, Constants.tag)
         }
 
         /* set listener: save button, return to inbox if successful */
@@ -106,7 +106,7 @@ class EntryEditFragment : Fragment() {
                 currentEntry.recurring = Frequency.NONE.toString()
             }
             Log.d(
-                Helpers.TAG,
+                Constants.TAG,
                 "-\t\nContent: ${currentEntry.content}\n" +
                         "dueDate: ${currentEntry.dueDate}\n" +
                         "loc: ${currentEntry.location}\n" +
@@ -136,7 +136,7 @@ class EntryEditFragment : Fragment() {
             binding.entryEditFrequency.visibility = VISIBLE
             binding.entryEditFrequencyText.selectItem(
                 currentEntry.recurring, // string
-                Helpers.indexOfFrequency(currentEntry.recurring) // index
+                Constants.indexOfFrequency(currentEntry.recurring) // index
             )
             binding.entryEditCheckbox.setImageResource(Entry.checkboxCheckedIconSource)
             //binding.entryEditChooseDate.isEnabled = false
@@ -153,17 +153,17 @@ class EntryEditFragment : Fragment() {
             ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
-                Helpers.parseFrequencyToArray(filterOutNone = true)
+                Constants.parseFrequencyToArray(filterOutNone = true)
             )
         )
 
         /* initialize date text view */
         if (currentEntry.dueDate != null) {
-            binding.entryEditChooseDate.setText(Helpers.parseDateFromMs(currentEntry.dueDate!!.toLong()))
+            binding.entryEditChooseDate.setText(Constants.parseDateFromMs(currentEntry.dueDate!!.toLong()))
         } else {
             //TODO populate with existing date if in edit mode
             binding.entryEditChooseDate.hint =
-                Helpers.parseDateFromMs(MaterialDatePicker.todayInUtcMilliseconds())
+                Constants.parseDateFromMs(MaterialDatePicker.todayInUtcMilliseconds())
         }
 
         /* initialize select labels adapter */

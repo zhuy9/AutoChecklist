@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import edu.rosehulman.automaticchecklist.Helpers
+import edu.rosehulman.automaticchecklist.Constants
 import edu.rosehulman.automaticchecklist.R
 import edu.rosehulman.automaticchecklist.databinding.FragmentUserEditBinding
 import edu.rosehulman.automaticchecklist.models.UserViewModel
@@ -21,7 +21,7 @@ class UserEditFragment : Fragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         val userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-        Log.d(Helpers.TAG, "User in edit fragment: ${userModel.user}")
+        Log.d(Constants.TAG, "User in edit fragment: ${userModel.user}")
 
         val binding = FragmentUserEditBinding.inflate(inflater, container, false)
         binding.userEditDoneButton.setOnClickListener {
@@ -37,7 +37,7 @@ class UserEditFragment : Fragment() {
 
         userModel.getOrMakeUser {
             with(userModel.user!!) {
-                Log.d(Helpers.TAG, "$this")
+                Log.d(Constants.TAG, "$this")
                 binding.userEditNameEditText.setText(name)
                 binding.userEditAgeEditText.setText(age.toString())
             }

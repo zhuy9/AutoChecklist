@@ -1,4 +1,4 @@
-package edu.rosehulman.automaticchecklist
+package edu.rosehulman.automaticchecklist.models
 
 enum class Frequency {
     NONE,

@@ -4,7 +4,6 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
-import edu.rosehulman.automaticchecklist.Frequency
 import edu.rosehulman.automaticchecklist.R
 
 data class Entry(
@@ -13,6 +12,7 @@ data class Entry(
     var dueDate: String? = null,
     var location: String = "",
     var recurring: String = Frequency.NONE.toString(),
+    var recurCount: Int = 1,
     // var recurringOn: DayOfWeek? = null,
     var tags: ArrayList<String> = ArrayList()
 ) {

@@ -6,7 +6,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import edu.rosehulman.automaticchecklist.Helpers
+import edu.rosehulman.automaticchecklist.Constants
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -65,7 +65,7 @@ class UserViewModel : ViewModel() {
 
     fun getOrMakeUser(observer: () -> Unit) {
         Log.d(
-            Helpers.TAG,
+            Constants.TAG,
             "GetOrMakeUser: uid: ${Firebase.auth.uid}}"
         )
         ref = Firebase.firestore.collection(User.COLLECTION_PATH)
