@@ -100,7 +100,6 @@ class EntriesViewModel : ViewModel() {
         oldPos = currentPos
         ref.document(getCurrentEntry().id).delete()
         currentPos = 0
-
     }
 
     fun undoLastDelete() {

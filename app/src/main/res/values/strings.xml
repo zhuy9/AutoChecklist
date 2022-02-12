@@ -25,7 +25,7 @@
     <string name="recurring">Recurring</string>
     <string name="due_date">Due Date:</string>
     <string name="_01_01_2022">01/01/2022</string>
-    <string name="choose_recurring_frequency">Choose Recurring Frequency</string>
+    <string name="choose_recurring_frequency">Recurring Frequency</string>
     <string name="location">Location</string>
     <string name="choose_label_s">Choose Label(s)</string>
     <string name="create_a_new_label">Create a new label</string>
@@ -39,4 +39,7 @@
     <string name="undo">undo</string>
     <string name="delete_checked_items">Delete Checked Items</string>
     <string name="cancel">cancel</string>
+    <string name="dec_sign">-</string>
+    <string name="Uno">1</string>
+    <string name="inc_sign">+</string>
 </resources>

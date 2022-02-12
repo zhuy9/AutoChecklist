@@ -180,8 +180,6 @@ class EntryAdapter(private val fragment: InboxFragment) :
         //https://stackoverflow.com/questions/66551781/android-onrequestpermissionsresult-is-deprecated-are-there-any-alternatives/66552678#66552678
 
         fun setupCalendarEvent(entry: Entry) {
-            val RECUR_CT = 2
-
             val intent = Intent(Intent.ACTION_EDIT)
             //intent.data = CalendarContract.CONTENT_URI
             intent.type = "vnd.android.cursor.item/event"
@@ -191,7 +189,7 @@ class EntryAdapter(private val fragment: InboxFragment) :
             intent.putExtra(CalendarContract.Events.EVENT_LOCATION, entry.location)
             intent.putExtra(CalendarContract.Events.DTSTART, entry.dueDate!!.toLong())
             if(entry.recurring != "NONE" && entry.recurring.isNotBlank())
-                intent.putExtra(CalendarContract.Events.RRULE, "FREQ=${entry.recurring};COUNT=${RECUR_CT}")
+                intent.putExtra(CalendarContract.Events.RRULE, "FREQ=${entry.recurring};COUNT=${entry.recurCount}")
             intent.putExtra(CalendarContract.Events.DTEND, entry.dueDate!!.toLong() + 1)
 
             if (intent.resolveActivity(fragment.requireContext().packageManager) != null) {

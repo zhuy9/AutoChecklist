@@ -50,6 +50,23 @@ class EntryEditFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        /* set inc & dec listener */
+        binding.entryEditFreqIncButton.setOnClickListener {
+            val freq: Int = binding.entryEditFreqNumberText.text.toString().toInt()
+            binding.entryEditFreqNumberText.setText((freq + 1).toString())
+        }
+
+        binding.entryEditFreqDecButton.setOnClickListener {
+            val freq = binding.entryEditFreqNumberText.text.toString().toInt()
+            if (freq >= 2)
+                binding.entryEditFreqNumberText.setText((freq - 1).toString())
+        }
+
+        /* set listener: cancel button */
+        binding.entryEditCancelButton.setOnClickListener {
+            findNavController().navigate(R.id.navigation_inbox)
+        }
+
         /* set listener: add new labels */
         binding.entryEditLabelConfirmButton.setOnClickListener {
             userModel.addLabel(binding.entryEditLabelNewInput.text.toString())
@@ -100,10 +117,14 @@ class EntryEditFragment : Fragment() {
             if (binding.entryEditFrequency.isVisible) {
                 //currentEntry.dueDate = null
                 val recurString = binding.entryEditFrequencyText.text.toString()
-                if (recurString.isNotBlank())
+                if (recurString.isNotBlank()) {
                     currentEntry.recurring = recurString
+                    currentEntry.recurCount =
+                        binding.entryEditFreqNumberText.text.toString().toInt()
+                }
             } else {
                 currentEntry.recurring = Frequency.NONE.toString()
+                currentEntry.recurCount = 1
             }
             Log.d(
                 Constants.TAG,
@@ -111,6 +132,7 @@ class EntryEditFragment : Fragment() {
                         "dueDate: ${currentEntry.dueDate}\n" +
                         "loc: ${currentEntry.location}\n" +
                         "freq: ${currentEntry.recurring}\n" +
+                        "freqCt: ${currentEntry.recurCount}\n" +
                         "tags: ${currentEntry.tags}"
             )
             entriesModel.updateCurrentEntry(currentEntry)
@@ -147,6 +169,7 @@ class EntryEditFragment : Fragment() {
             binding.entryEditCheckbox.setImageResource(Entry.checkboxNotCheckedIconSource)
             binding.entryEditFrequency.visibility = GONE
         }
+        binding.entryEditFreqNumberText.setText(currentEntry.recurCount.toString())
 
         /* initialize freq dropdown */
         binding.entryEditFrequencyText.setAdapter(
