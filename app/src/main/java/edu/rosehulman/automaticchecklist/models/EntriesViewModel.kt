@@ -28,6 +28,9 @@ class EntriesViewModel : ViewModel() {
 
     fun getContents() = entries.map { "[${it.content}]" }
 
+    fun getCheckedEntries() = entries.sumBy { if (it.isChecked) 1 else 0 }
+
+    fun deleteCheckedEntries() = entries.forEach { if (it.isChecked) ref.document(it.id).delete() }
 
     fun getEntriesByTag(tag: String): List<Entry> {
         if (tag == Frequency.NONE.toString())

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import edu.rosehulman.automaticchecklist.adapters.EntryAdapter
 import edu.rosehulman.automaticchecklist.Constants
 import edu.rosehulman.automaticchecklist.R
@@ -48,7 +49,25 @@ class InboxFragment : Fragment() {
             adapter.model.addNew()
             //adapter.addEntry(null)
             findNavController().navigate(R.id.navigation_create)
+        }
 
+        binding.inboxDeleteAllButton.setOnClickListener {
+            val count = adapter.model.getCheckedEntries()
+            if (count == 0)
+                return@setOnClickListener
+            val warning =
+                if (count == 1)
+                    "Are you sure to remove 1 entry permanently?"
+                else
+                    String.format("Are you sure to remove %d entries permanently?", count)
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Warning")
+                .setMessage(warning)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    // remove this quote,
+                    adapter.model.deleteCheckedEntries()
+                }.setNegativeButton(android.R.string.cancel, null)
+                .show()
         }
 
         return binding.root
