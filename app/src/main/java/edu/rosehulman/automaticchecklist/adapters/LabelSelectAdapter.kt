@@ -63,17 +63,15 @@ class LabelSelectAdapter(
                 notifyDataSetChanged()
                 Snackbar.make(
                     itemView,
-                    "Label {${userModel.removedLabelsToString()}} has been removed",
+                    String.format(
+                        fragment.getString(R.string.label_has_been_removed_instr), 
+                        userModel.removedLabelsToString()),
                     Snackbar.LENGTH_LONG
-                )
-                    .setAction(R.string.undo) {
+                ).setAction(R.string.undo) {
                         userModel.undoDelete()
                         notifyDataSetChanged()
-                    }
-                    //.setAnchorView(itemView.findViewById(R.id.nav_view))
-                    .show()
+                    }.show()
             }
-
         }
 
         fun bind(label: String, tags: ArrayList<String>) {

@@ -62,11 +62,6 @@ class EntryEditFragment : Fragment() {
                 binding.entryEditFreqNumberText.setText((freq - 1).toString())
         }
 
-        /* set listener: cancel button */
-        binding.entryEditCancelButton.setOnClickListener {
-            findNavController().navigate(R.id.navigation_inbox)
-        }
-
         /* set listener: add new labels */
         binding.entryEditLabelConfirmButton.setOnClickListener {
             userModel.addLabel(binding.entryEditLabelNewInput.text.toString())

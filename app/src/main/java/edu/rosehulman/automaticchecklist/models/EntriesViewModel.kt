@@ -14,11 +14,10 @@ import kotlin.random.Random
 
 class EntriesViewModel : ViewModel() {
 
-    private var entries = ArrayList<Entry>()
-    var currentPos = 0
+    private var entries: ArrayList<Entry> = ArrayList()
+    private var currentPos = 0
     var oldPos = -14
     private var oldVal: Entry? = null
-    private var currentDocId: String = ""
     private lateinit var ref: CollectionReference
     private val subscriptions = HashMap<String, ListenerRegistration>()
     var onCreate = false
@@ -27,10 +26,12 @@ class EntriesViewModel : ViewModel() {
         onCreate = true
     }
 
-    fun getEntriesByTag(tag: String): List<Entry> {
-        if (tag == null || tag == "NONE")
-            return entries
+    fun getContents() = entries.map { "[${it.content}]" }
 
+
+    fun getEntriesByTag(tag: String): List<Entry> {
+        if (tag == Frequency.NONE.toString())
+            return entries
         return entries.filter { it.tags.contains(tag.lowercase(Locale.getDefault())) }
     }
 
@@ -84,9 +85,12 @@ class EntriesViewModel : ViewModel() {
         }
     }
 
-    fun getRandom() = Random.nextInt(100)
+    private fun getRandom() = Random.nextInt(100)
 
     fun updateCurrentEntry(entry: Entry?) {
+        if (entry == null) {
+
+        }
         if (onCreate) onCreate = false
         // Log.d(Helpers.TAG, "---------------------ERROR LOCATION: ${entry!!.id}")
         if (entry!!.id.isNotBlank())
@@ -119,6 +123,4 @@ class EntriesViewModel : ViewModel() {
     }
 
     fun size() = entries.size
-
-
 }

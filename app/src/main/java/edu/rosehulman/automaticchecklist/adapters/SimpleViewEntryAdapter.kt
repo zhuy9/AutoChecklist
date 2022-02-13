@@ -15,7 +15,6 @@ import edu.rosehulman.automaticchecklist.Constants
 import edu.rosehulman.automaticchecklist.R
 import edu.rosehulman.automaticchecklist.models.EntriesViewModel
 import edu.rosehulman.automaticchecklist.models.Entry
-import edu.rosehulman.automaticchecklist.models.Label
 import edu.rosehulman.automaticchecklist.ui.CategoryFragment
 
 class SimpleViewEntryAdapter(fragment: CategoryFragment, label: String) :
@@ -89,7 +88,6 @@ class SimpleViewEntryAdapter(fragment: CategoryFragment, label: String) :
             if (entry.location.isNotBlank()) {
                 locationIconView.visibility = VISIBLE
                 locationTextView.visibility = VISIBLE
-                locationIconView.setImageResource(Label.LABEL_LOCATION)
                 locationTextView.text = entry.location
             } else {
                 locationIconView.visibility = GONE

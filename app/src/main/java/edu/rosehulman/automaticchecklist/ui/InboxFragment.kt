@@ -33,6 +33,7 @@ class InboxFragment : Fragment() {
         adapter = EntryAdapter(this)
         binding.recyclerView.adapter = adapter
         adapter.addListener(fragmentName)
+        Log.d(Constants.TAG, "InboxFrag::OnCreateView: ${adapter.model.getContents()}")
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.addItemDecoration(
@@ -53,12 +54,12 @@ class InboxFragment : Fragment() {
         return binding.root
     }
 
-    fun requestPermissions(observer: (() -> Unit)?) {
+    private fun requestPermissions(observer: (() -> Unit)?) {
         var permissions: Array<String> =
             arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR)
         val register =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-                if(it[Manifest.permission.READ_CALENDAR]!! && it[Manifest.permission.WRITE_CALENDAR]!! ){
+                if (it[Manifest.permission.READ_CALENDAR]!! && it[Manifest.permission.WRITE_CALENDAR]!!) {
                     Log.d(Constants.TAG, "GRANTED-------------------")
 
                 } else {

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,6 @@ import edu.rosehulman.automaticchecklist.Constants
 import edu.rosehulman.automaticchecklist.R
 import edu.rosehulman.automaticchecklist.models.EntriesViewModel
 import edu.rosehulman.automaticchecklist.models.Entry
-import edu.rosehulman.automaticchecklist.models.Label
 import edu.rosehulman.automaticchecklist.ui.InboxFragment
 
 class EntryAdapter(private val fragment: InboxFragment) :
@@ -54,7 +54,6 @@ class EntryAdapter(private val fragment: InboxFragment) :
         notifyDataSetChanged()
     }
 
-
     inner class EntryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val contentTextView: TextView = itemView.findViewById(R.id.entry_content)
         private val checkboxIconView: ImageView = itemView.findViewById(R.id.entry_checkbox)
@@ -72,45 +71,48 @@ class EntryAdapter(private val fragment: InboxFragment) :
 
         init {
             editImageButton.setOnClickListener {
-                model.updatePos(adapterPosition)
+                model.updatePos(absoluteAdapterPosition)
                 fragment.findNavController().navigate(R.id.navigation_update)
                 // TODO add animations
             }
             shareImageButton.setOnClickListener {
-                model.updatePos(adapterPosition)
+                model.updatePos(absoluteAdapterPosition)
                 val curEntry = model.getCurrentEntry()
                 if (curEntry.dueDate == null) {
-                    Snackbar.make(
-                        itemView,
-                        "Missing due date for this event",
-                        Snackbar.LENGTH_SHORT
-                    ).setAction(android.R.string.ok, null).show() //TODO check if this is working
+                    Toast.makeText(
+                        fragment.context,
+                        fragment.getString(R.string.missing_due_date_instr),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
                 setupCalendarEvent(model.getCurrentEntry())
             }
 
             deleteImageButton.setOnClickListener {
-                model.updatePos(adapterPosition)
+                model.updatePos(absoluteAdapterPosition)
                 model.deleteCurrentEntry()
                 notifyDataSetChanged()
-                Snackbar.make(itemView, "This entry has been removed", Snackbar.LENGTH_LONG)
+                Snackbar.make(
+                    itemView,
+                    fragment.getString(R.string.this_entry_has_been_instr),
+                    Snackbar.LENGTH_LONG
+                )
                     .setAction(R.string.undo) {
                         model.undoLastDelete()
                         notifyDataSetChanged()
                     }
-                    //.setAnchorView(itemView.findViewById(R.id.nav_view))
                     .show()
 
             }
             checkboxIconView.setOnClickListener {
-                model.updatePos(adapterPosition)
+                model.updatePos(absoluteAdapterPosition)
                 model.toggleCurrentEntryState()
                 notifyDataSetChanged()
             }
 
             itemView.setOnLongClickListener {
-                model.updatePos(adapterPosition)
+                model.updatePos(absoluteAdapterPosition)
                 model.toggleCurrentEntryState()
                 notifyDataSetChanged()
                 true
@@ -151,7 +153,6 @@ class EntryAdapter(private val fragment: InboxFragment) :
             if (entry.location.isNotBlank()) {
                 locationIconView.visibility = VISIBLE
                 locationTextView.visibility = VISIBLE
-                locationIconView.setImageResource(Label.LABEL_LOCATION)
                 locationTextView.text = entry.location
             } else {
                 locationIconView.visibility = GONE
@@ -176,24 +177,26 @@ class EntryAdapter(private val fragment: InboxFragment) :
         /* reference: https://itnext.io/android-calendar-intent-8536232ecb38 */
         /* reference: RRULE: https://datatracker.ietf.org/doc/html/rfc5545#section-3.8.5.3 */
         /* https://stackoverflow.com/questions/58586819/how-to-add-events-to-calendar-on-android-device-without-using-intent */
-        //https://stackoverflow.com/questions/38110754/android-permissions-read-calendar-write-calendar
-        //https://stackoverflow.com/questions/66551781/android-onrequestpermissionsresult-is-deprecated-are-there-any-alternatives/66552678#66552678
+        /* https://stackoverflow.com/questions/38110754/android-permissions-read-calendar-write-calendar */
+        /* https://stackoverflow.com/questions/66551781/android-onrequestpermissionsresult-is-deprecated-are-there-any-alternatives/66552678#66552678 */
 
         fun setupCalendarEvent(entry: Entry) {
             val intent = Intent(Intent.ACTION_EDIT)
             //intent.data = CalendarContract.CONTENT_URI
-            intent.type = "vnd.android.cursor.item/event"
+            intent.type = INTENT_TYPE
             intent.putExtra(CalendarContract.Events.TITLE, entry.content)
             intent.putExtra(CalendarContract.Events.ALL_DAY, true)
             intent.putExtra(CalendarContract.Events.DESCRIPTION, entry.tags.toString())
             intent.putExtra(CalendarContract.Events.EVENT_LOCATION, entry.location)
             intent.putExtra(CalendarContract.Events.DTSTART, entry.dueDate!!.toLong())
-            if(entry.recurring != "NONE" && entry.recurring.isNotBlank())
-                intent.putExtra(CalendarContract.Events.RRULE, "FREQ=${entry.recurring};COUNT=${entry.recurCount}")
+            if (entry.recurring != Frequency.NONE.toString() && entry.recurring.isNotBlank())
+                intent.putExtra(
+                    CalendarContract.Events.RRULE,
+                    "FREQ=${entry.recurring};COUNT=${entry.recurCount}"
+                )
             intent.putExtra(CalendarContract.Events.DTEND, entry.dueDate!!.toLong() + 1)
 
             if (intent.resolveActivity(fragment.requireContext().packageManager) != null) {
-                // fragment.requireContext().startActivity(intent)
                 Log.d(Constants.TAG, "-- APP support intent")
             } else {
                 // Snackbar.make( itemView, "There is no App supporting this intent", Snackbar.LENGTH_SHORT ).show()
@@ -201,6 +204,8 @@ class EntryAdapter(private val fragment: InboxFragment) :
             }
             fragment.requireContext().startActivity(intent)
         }
-
+    }
+    companion object {
+        const val INTENT_TYPE = "vnd.android.cursor.item/event"
     }
 }

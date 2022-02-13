@@ -52,7 +52,6 @@ class CategoryFragment : Fragment() {
         binding.categoryDropdownSelect.addTextChangedListener {
             adapter = SimpleViewEntryAdapter(this, it.toString())
             binding.categoryRecyclerView.adapter = adapter
-            // adapter.addListener(fragmentName)
             binding.categoryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             binding.categoryRecyclerView.setHasFixedSize(true)
             binding.categoryRecyclerView.addItemDecoration(
@@ -63,14 +62,5 @@ class CategoryFragment : Fragment() {
             )
         }
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // adapter.removeListener(fragmentName)
-    }
-
-    companion object {
-        const val fragmentName = "CategoryFragment" // keep this way
     }
 }
