@@ -21,7 +21,7 @@ class UserEditFragment : Fragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         val userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-        Log.d(Constants.TAG, "User in edit fragment: ${userModel.user}")
+        // Log.d(Constants.TAG, "User in edit fragment: ${userModel.user}")
 
         val binding = FragmentUserEditBinding.inflate(inflater, container, false)
         binding.userEditDoneButton.setOnClickListener {

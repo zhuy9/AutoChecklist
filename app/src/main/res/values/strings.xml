@@ -45,4 +45,7 @@
     <string name="missing_due_date_instr">Missing due date for this event</string>
     <string name="this_entry_has_been_instr">This entry has been removed</string>
     <string name="label_has_been_removed_instr">Label [%s] has been removed</string>
+    <string name="are_you_sure_1_instr">Are you sure to remove 1 entry permanently?</string>
+    <string name="are_you_sure_multi_instr">Are you sure to remove %d entries permanently?</string>
+    <string name="warning">Warning</string>
 </resources>

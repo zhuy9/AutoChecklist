@@ -26,8 +26,6 @@ object Constants {
         Frequency.valueOf(f)
     ) // index
 
-    fun parseSingleFrequency(f: Frequency) = f.name.replace("_", " ")
-
     /* parse from milliseconds into dd/MM/yyyy format */
     /* off by one day bug fix sources: */
     /* https://github.com/material-components/material-components-android/issues/882 */

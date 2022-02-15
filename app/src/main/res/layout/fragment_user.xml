@@ -40,6 +40,7 @@
         android:layout_below="@+id/user_age"
         android:layout_centerHorizontal="true"
         android:text="@string/user_labels"
+        android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold" />
 

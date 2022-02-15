@@ -34,7 +34,7 @@ class InboxFragment : Fragment() {
         adapter = EntryAdapter(this)
         binding.recyclerView.adapter = adapter
         adapter.addListener(fragmentName)
-        Log.d(Constants.TAG, "InboxFrag::OnCreateView: ${adapter.model.getContents()}")
+        // Log.d(Constants.TAG, "InboxFrag::OnCreateView: ${adapter.model.getContents()}")
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.addItemDecoration(
@@ -45,7 +45,7 @@ class InboxFragment : Fragment() {
         )
 
         binding.fab.setOnClickListener {
-            Log.d(Constants.TAG, "FAB clicked!")
+            // Log.d(Constants.TAG, "FAB clicked!")
             adapter.model.addNew()
             //adapter.addEntry(null)
             findNavController().navigate(R.id.navigation_create)
@@ -57,11 +57,11 @@ class InboxFragment : Fragment() {
                 return@setOnClickListener
             val warning =
                 if (count == 1)
-                    "Are you sure to remove 1 entry permanently?"
+                    getString(R.string.are_you_sure_1_instr)
                 else
-                    String.format("Are you sure to remove %d entries permanently?", count)
+                    String.format(getString(R.string.are_you_sure_multi_instr), count)
             MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Warning")
+                .setTitle(getString(R.string.warning))
                 .setMessage(warning)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     // remove this quote,
@@ -79,7 +79,7 @@ class InboxFragment : Fragment() {
         val register =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
                 if (it[Manifest.permission.READ_CALENDAR]!! && it[Manifest.permission.WRITE_CALENDAR]!!) {
-                    Log.d(Constants.TAG, "GRANTED-------------------")
+                    Log.d(Constants.TAG, "CALENDAR ACCESS GRANTED-------------------")
 
                 } else {
 
