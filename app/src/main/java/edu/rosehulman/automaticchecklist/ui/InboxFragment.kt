@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import edu.rosehulman.automaticchecklist.adapters.EntryAdapter
@@ -24,6 +23,7 @@ class InboxFragment : Fragment() {
     private lateinit var binding: FragmentInboxBinding
     private lateinit var adapter: EntryAdapter
 
+    // @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,17 +37,9 @@ class InboxFragment : Fragment() {
         // Log.d(Constants.TAG, "InboxFrag::OnCreateView: ${adapter.model.getContents()}")
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.setHasFixedSize(true)
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
-            )
-        )
 
         binding.fab.setOnClickListener {
-            // Log.d(Constants.TAG, "FAB clicked!")
             adapter.model.addNew()
-            //adapter.addEntry(null)
             findNavController().navigate(R.id.navigation_create)
         }
 

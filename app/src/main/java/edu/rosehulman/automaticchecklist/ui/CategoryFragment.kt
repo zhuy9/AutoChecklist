@@ -32,12 +32,12 @@ class CategoryFragment : Fragment() {
         // adapter.addListener(fragmentName)
         binding.categoryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.categoryRecyclerView.setHasFixedSize(true)
-        binding.categoryRecyclerView.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
-            )
-        )
+        //binding.categoryRecyclerView.addItemDecoration(
+        //    DividerItemDecoration(
+        //        requireContext(),
+        //        DividerItemDecoration.VERTICAL
+        //    )
+        //)
         var tempLabels: ArrayList<String> = userModel.user!!.labels.clone() as ArrayList<String>
         tempLabels.add("NONE")
         binding.categoryDropdownSelect.setAdapter(

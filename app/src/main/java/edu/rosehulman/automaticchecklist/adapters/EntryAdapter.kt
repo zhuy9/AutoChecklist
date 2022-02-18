@@ -180,9 +180,8 @@ class EntryAdapter(private val fragment: InboxFragment) :
         /* https://stackoverflow.com/questions/38110754/android-permissions-read-calendar-write-calendar */
         /* https://stackoverflow.com/questions/66551781/android-onrequestpermissionsresult-is-deprecated-are-there-any-alternatives/66552678#66552678 */
 
-        fun setupCalendarEvent(entry: Entry) {
+        private fun setupCalendarEvent(entry: Entry) {
             val intent = Intent(Intent.ACTION_EDIT)
-            //intent.data = CalendarContract.CONTENT_URI
             intent.type = INTENT_TYPE
             intent.putExtra(CalendarContract.Events.TITLE, entry.content)
             intent.putExtra(CalendarContract.Events.ALL_DAY, true)
@@ -202,6 +201,8 @@ class EntryAdapter(private val fragment: InboxFragment) :
                 // Snackbar.make( itemView, "There is no App supporting this intent", Snackbar.LENGTH_SHORT ).show()
                 Log.d(Constants.TAG, "There is no App supporting this intent")
             }
+            
+            intent.putExtra(CalendarContract.Events.DTEND, entry.dueDate!!.toLong() + 1) // optional
             fragment.requireContext().startActivity(intent)
         }
     }
